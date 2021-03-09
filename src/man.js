@@ -6,8 +6,8 @@ class Man {
     this.board = board;
 
     this.pos = board.startPos;
-    this.dy = 1;
-    this.dx = 1;
+    this.dy = 2;
+    this.dx = 2;
   }
 
   move() {
@@ -26,7 +26,7 @@ class Man {
     if (initialDelta > 0) {
       return initialDelta + 4; 
     } else {
-      return initialDelta - 5;
+      return initialDelta - 3;
     }
   }
 }
