@@ -11,6 +11,7 @@ class Game {
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
     this.wallsMoved = false;
+    this.shuttlesMoved = false;
 
     this.view.renderMapStartScreen();
   }
@@ -37,6 +38,13 @@ class Game {
         }        
         break;
 
+      case "KeyS":
+        if (!this.shuttlesMoved) {
+          this.shuttlesMoved = true;
+          this.board.moveShuttles();
+        }        
+        break;
+
       default:
         break;
     }
@@ -47,6 +55,11 @@ class Game {
       case "KeyA":
         this.board.moveWalls();
         this.wallsMoved = false;
+        break;
+
+      case "KeyS":
+        this.board.moveShuttles();
+        this.shuttlesMoved = false;
         break;
 
       default:
@@ -77,12 +90,15 @@ Game.MAPS = {
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
     end: [6, 10],
-    walls: [[4, 10]]
+    walls: [[4, 10]],
+    shuttles: []
   },
   1: {
-    start: [0, 9],
+    start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
-    end: [5, 11]
+    end: [11, 10],
+    walls: [],
+    shuttles: [[5, 10]]
   }
 }
 

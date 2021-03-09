@@ -4,9 +4,11 @@ class Man {
   constructor(board, color) {
     this.color = color;
     this.reachedFinish = false;
+    this.onShuttle = false;
 
     this.board = board;
-    this.pos = board.startPos;   
+    this.pos = board.startPos;
+    this.tilePos = board.absolutePosToMapPos(this.pos);
     
     this.dy = 2;
     this.dx = 2;
@@ -22,6 +24,8 @@ class Man {
     }
     
     this.pos = this.pos.plus(new Coord(this.dx, this.dy));
+    this.tilePos = this.board.absolutePosToMapPos(this.pos);
+
     this.reachedFinish = this.board.atFinish(this.pos);
   }
 
