@@ -8,7 +8,10 @@ class Game {
     this.intervalId = null;
     this.mapIndex = 0;
 
-    $(window).on("keydown", this.handleKeyEvent.bind(this));
+    $(window).on("keydown", this.handleKeyDownEvent.bind(this));
+    $(window).on("keyup", this.handleKeyUpEvent.bind(this));
+    this.wallsMoved = false;
+
     this.view.renderMapStartScreen();
   }
 
@@ -18,13 +21,32 @@ class Game {
     this.view.renderMapStartScreen();  
   }
 
-  handleKeyEvent(event) {
+  handleKeyDownEvent(event) {
     switch (event.code) {
       case "Enter":
         this.intervalId = window.setInterval(
           this.step.bind(this),
           Game.STEP_MILLIS
         );
+        break;
+
+      case "KeyA":
+        if (!this.wallsMoved) {
+          this.wallsMoved = true;
+          this.board.moveWalls();
+        }        
+        break;
+
+      default:
+        break;
+    }
+  }
+
+  handleKeyUpEvent(event) {
+    switch (event.code) {
+      case "KeyA":
+        this.board.moveWalls();
+        this.wallsMoved = false;
         break;
 
       default:
@@ -53,8 +75,9 @@ class Game {
 Game.MAPS = {
   0: { 
     start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
-    end: [5, 10]
+    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
+    end: [6, 10],
+    walls: [[4, 10]]
   },
   1: {
     start: [0, 9],
@@ -63,6 +86,6 @@ Game.MAPS = {
   }
 }
 
-Game.STEP_MILLIS = 40;
+Game.STEP_MILLIS = 15;
 
 export default Game;

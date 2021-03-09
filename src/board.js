@@ -6,6 +6,8 @@ class Board {
     this.map = map;
     this.startPos = new Coord(map.start[0] * 40, map.start[1] * 40);
 
+    this.wallsMoved = false;
+
     this.men = [];
     this.men.push(new Man(this, "#00FF00"));
   }
@@ -16,12 +18,20 @@ class Board {
     if (JSON.stringify(this.map.start) === coord_string || JSON.stringify(this.map.end) === coord_string) {
       return true;
     }
-    
-    let contains = this.map.floor.some(tile => {
+
+    let hitWall = this.map.walls.some(tile => {
       return JSON.stringify(tile) === coord_string;
     });
 
-    return contains;
+    if (hitWall) {
+      return false;
+    }
+    
+    let onFloor = this.map.floor.some(tile => {
+      return JSON.stringify(tile) === coord_string;
+    });
+
+    return onFloor;
   }
 
   atFinish(coord) {
@@ -36,6 +46,16 @@ class Board {
 
   removeMan(idx) {
     this.men.splice(idx, 1);
+  }
+
+  moveWalls() {
+    if (this.wallsMoved) {
+      this.map.walls.forEach(wall => wall[1] -= 1);
+    } else {
+      this.map.walls.forEach(wall => wall[1] += 1);
+    }
+
+    this.wallsMoved = !this.wallsMoved;
   }
 }
 
