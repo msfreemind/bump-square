@@ -3,9 +3,11 @@ import Coord from './coord';
 class Man {
   constructor(board, color) {
     this.color = color;
-    this.board = board;
+    this.reachedFinish = false;
 
-    this.pos = board.startPos;
+    this.board = board;
+    this.pos = board.startPos;   
+    
     this.dy = 2;
     this.dx = 2;
   }
@@ -20,6 +22,7 @@ class Man {
     }
     
     this.pos = this.pos.plus(new Coord(this.dx, this.dy));
+    this.reachedFinish = this.board.atFinish(this.pos);
   }
 
   moveDelta(initialDelta) {

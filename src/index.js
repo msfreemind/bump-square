@@ -1,8 +1,8 @@
-import View from './view';
+import Game from './game';
 
 $(function () {
   const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
 
-  new View(ctx);
+  new Game(ctx);
 });

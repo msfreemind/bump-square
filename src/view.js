@@ -1,23 +1,17 @@
-import Board from './board';
-
 class View {
-  constructor(ctx) {
+  constructor(ctx, board) {
     this.ctx = ctx;
-
-    this.board = new Board(View.MAPS[0]);
-
-    this.intervalId = window.setInterval(
-      this.step.bind(this),
-      View.STEP_MILLIS
-    );
+    this.board = board;
   }
 
   renderMap() {
     // Draw game area
     this.ctx.beginPath();
+
     this.ctx.rect(0, 0, 1000, 800);
     this.ctx.fillStyle = "#000000";
     this.ctx.fill();
+
     this.ctx.closePath();
 
     // Draw floor tiles
@@ -28,48 +22,29 @@ class View {
 
   drawTile(tile, color) {
     this.ctx.beginPath();
+
     this.ctx.rect(40 * tile[0], 40 * tile[1], 40, 40);
     this.ctx.fillStyle = color;         
     this.ctx.fill();
+
     this.ctx.closePath();
   }
 
-  renderNext() {
+  renderNextState() {
     this.renderMap();
 
     this.board.men.forEach(man => {
       this.ctx.beginPath();
 
-      this.ctx.arc(
-        man.pos.i, 
-        man.pos.j, 
-        View.MAN_RADIUS, 
-        0, 
-        Math.PI*2
-      );
+      this.ctx.arc(man.pos.i, man.pos.j, View.MAN_RADIUS, 0, Math.PI * 2);
       this.ctx.fillStyle = man.color;
       this.ctx.fill();
 
       this.ctx.closePath();
     });
   }
-
-  step() {
-    this.board.men.forEach(man => man.move());
-    this.renderNext();
-  }
-}
-
-View.MAPS = {
-  0: { 
-    start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
-    end: [5, 10]
-  }
 }
 
 View.MAN_RADIUS = 5;
-
-View.STEP_MILLIS = 80;
 
 export default View;
