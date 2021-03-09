@@ -4,7 +4,6 @@ import Coord from './coord';
 class Board {
   constructor(map) {
     this.map = map;
-
     this.startPos = new Coord(map.start[0] * 40, map.start[1] * 40);
 
     this.men = [];
@@ -33,6 +32,10 @@ class Board {
     } else {
       return false;
     }
+  }
+
+  removeMan(idx) {
+    this.men.splice(idx, 1);
   }
 }
 

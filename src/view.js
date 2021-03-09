@@ -4,30 +4,19 @@ class View {
     this.board = board;
   }
 
-  renderMap() {
-    // Draw game area
-    this.ctx.beginPath();
+  renderMapStartScreen() {
+    this.drawGameArea();
 
-    this.ctx.rect(0, 0, 1000, 800);
-    this.ctx.fillStyle = "#000000";
-    this.ctx.fill();
+    this.ctx.font = '48px sans-serif';
+    this.ctx.textAlign = "center";
+    this.ctx.fillStyle = "#00FFFF";
+    this.ctx.fillText("Map #1", 500, 200);
 
-    this.ctx.closePath();
+    this.ctx.font = '30px sans-serif';
+    this.ctx.fillText("Getting Your Blocks Wet", 500, 250);
 
-    // Draw floor tiles
-    this.drawTile(this.board.map.start, "#0000FF");
-    this.drawTile(this.board.map.end, "#FFFF00");
-    this.board.map.floor.forEach(tile => this.drawTile(tile, "#FF00FF"));
-  }
-
-  drawTile(tile, color) {
-    this.ctx.beginPath();
-
-    this.ctx.rect(40 * tile[0], 40 * tile[1], 40, 40);
-    this.ctx.fillStyle = color;         
-    this.ctx.fill();
-
-    this.ctx.closePath();
+    this.ctx.font = '48px sans-serif';
+    this.ctx.fillText("Hit Enter", 500, 500);
   }
 
   renderNextState() {
@@ -42,6 +31,36 @@ class View {
 
       this.ctx.closePath();
     });
+  }
+
+  renderMap() {
+    // Draw game area
+    this.drawGameArea();
+
+    // Draw floor tiles
+    this.drawTile(this.board.map.start, "#0000FF");
+    this.drawTile(this.board.map.end, "#FFFF00");
+    this.board.map.floor.forEach(tile => this.drawTile(tile, "#FF00FF"));
+  }
+
+  drawGameArea() {
+    this.ctx.beginPath();
+
+    this.ctx.rect(0, 0, 1000, 800);
+    this.ctx.fillStyle = "#000000";
+    this.ctx.fill();
+
+    this.ctx.closePath();
+  }
+
+  drawTile(tile, color) {
+    this.ctx.beginPath();
+
+    this.ctx.rect(40 * tile[0], 40 * tile[1], 40, 40);
+    this.ctx.fillStyle = color;         
+    this.ctx.fill();
+
+    this.ctx.closePath();
   }
 }
 
