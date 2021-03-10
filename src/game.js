@@ -7,6 +7,7 @@ class Game {
     this.view = new View(ctx, this.board);
     this.intervalId = null;
     this.mapIndex = 0;
+    this.levelStarted = false;
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
@@ -18,6 +19,11 @@ class Game {
   }
 
   loadNextMap() {
+    this.wallsMoved = false;
+    this.shuttlesMoved = false;
+    this.bumpersMoved = false;
+    this.levelStarted = false;
+
     this.board = new Board(Game.MAPS[++this.mapIndex]);
     this.view.board = this.board;
     this.view.renderMapStartScreen();  
@@ -26,10 +32,14 @@ class Game {
   handleKeyDownEvent(event) {
     switch (event.code) {
       case "Enter":
-        this.intervalId = window.setInterval(
-          this.step.bind(this),
-          Game.STEP_MILLIS
-        );
+        if (!this.levelStarted) {
+          this.levelStarted = true;
+          this.intervalId = window.setInterval(
+            this.step.bind(this),
+            Game.STEP_MILLIS
+          );
+        }
+        
         break;
 
       case "KeyA":
@@ -61,18 +71,24 @@ class Game {
   handleKeyUpEvent(event) {
     switch (event.code) {
       case "KeyA":
-        this.board.moveWalls();
-        this.wallsMoved = false;
+        if (this.wallsMoved) {
+          this.board.moveWalls();
+          this.wallsMoved = false;
+        }        
         break;
 
       case "KeyS":
-        this.board.moveShuttles();
-        this.shuttlesMoved = false;
+        if (this.shuttlesMoved) {
+          this.board.moveShuttles();
+          this.shuttlesMoved = false;
+        }        
         break;
       
       case "KeyD":
-        this.board.moveBumpers();
-        this.bumpersMoved = false;
+        if (this.bumpersMoved) {
+          this.board.moveBumpers();
+          this.bumpersMoved = false;
+        }        
         break;
 
       default:
@@ -121,6 +137,14 @@ Game.MAPS = {
     end: [4, 14],
     walls: [],
     shuttles: [],
+    bumpers: [[4, 9]]
+  },
+  3: {
+    start: [0, 10],
+    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
+    end: [13, 14],
+    walls: [[11, 14]],
+    shuttles: [[4, 14]],
     bumpers: [[4, 9]]
   }
 }
