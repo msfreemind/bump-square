@@ -43,6 +43,7 @@ class View {
     this.board.map.floor.forEach(tile => this.drawTile(tile, "#FF00FF"));
     this.board.map.walls.forEach(tile => this.drawTile(tile, "#FFFFFF"));
     this.board.map.shuttles.forEach(tile => this.drawTile(tile, "#FF0000"));
+    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#00FF00"));
   }
 
   drawGameArea() {

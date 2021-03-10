@@ -8,6 +8,7 @@ class Board {
 
     this.wallsMoved = false;
     this.shuttlesMoved = false;
+    this.bumpersMoved = false;
 
     this.men = [];
     this.men.push(new Man(this, "#00FF00"));
@@ -23,7 +24,7 @@ class Board {
     if (JSON.stringify(this.map.start) === coord_string || JSON.stringify(this.map.end) === coord_string) {
       return true;
     } else {
-      let hitWall = this.map.walls.some(tile => {
+      let hitWall = this.map.walls.concat(this.map.bumpers).some(tile => {
         return JSON.stringify(tile) === coord_string;
       });
   
@@ -61,6 +62,28 @@ class Board {
     }
 
     this.wallsMoved = !this.wallsMoved;
+  }
+
+  moveBumpers() {
+    if (this.bumpersMoved) {
+      this.map.bumpers.forEach(bumper => {
+        bumper[1] -= 1
+
+        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
+          bumperMan.pos = bumperMan.pos.plus(new Coord(0, -80));
+        })
+      });
+    } else {
+      this.map.bumpers.forEach(bumper => {
+        bumper[1] += 1
+
+        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
+          bumperMan.pos = bumperMan.pos.plus(new Coord(0, 80));
+        })
+      });
+    }
+
+    this.bumpersMoved = !this.bumpersMoved;
   }
 
   moveShuttles() {
