@@ -49,21 +49,13 @@ class View {
   }
 
   drawGameArea() {
-    this.ctx.beginPath();
-
-    this.ctx.rect(0, 0, 1000, 800);
     this.ctx.fillStyle = "white";
-    this.ctx.fill();
-
-    this.ctx.closePath();
+    this.ctx.fillRect(0, 0, 1000, 800);
   }
 
   drawTile(tile, color, letter) {
-    this.ctx.beginPath();
-
-    this.ctx.rect(40 * tile[0], 40 * tile[1], 40, 40);
-    this.ctx.fillStyle = color;         
-    this.ctx.fill();
+    this.ctx.fillStyle = color; 
+    this.ctx.fillRect(40 * tile[0], 40 * tile[1], 40, 40);
 
     if (letter) {
       this.ctx.fillStyle = "white";
@@ -72,8 +64,6 @@ class View {
       this.ctx.textBaseline = "middle";
       this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
     }
-
-    this.ctx.closePath();
   }
 }
 
