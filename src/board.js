@@ -1,5 +1,6 @@
 import Man from './man';
 import Coord from './coord';
+import { tilesMatch } from './utils';
 
 class Board {
   constructor(map) {
@@ -19,20 +20,20 @@ class Board {
   }
 
   validPosition(coord) {
-    const coord_string = JSON.stringify(this.absolutePosToMapPos(coord));
+    const tileCoord = this.absolutePosToMapPos(coord);
 
-    if (JSON.stringify(this.map.start) === coord_string || JSON.stringify(this.map.end) === coord_string) {
+    if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
       return true;
     } else {
       let hitWall = this.map.walls.concat(this.map.bumpers).some(tile => {
-        return JSON.stringify(tile) === coord_string;
+        return tilesMatch(tile, tileCoord);
       });
   
       if (hitWall) {
         return false;
       } else {
         let onFloor = this.map.floor.concat(this.map.shuttles).some(tile => {
-          return JSON.stringify(tile) === coord_string;
+          return tilesMatch(tile, tileCoord);
         });
     
         return onFloor;
@@ -41,9 +42,9 @@ class Board {
   }
 
   atFinish(coord) {
-    const coord_string = JSON.stringify(this.absolutePosToMapPos(coord));
+    const tileCoord = this.absolutePosToMapPos(coord);
 
-    if (JSON.stringify(this.map.end) === coord_string) {
+    if (tilesMatch(this.map.end, tileCoord)) {
       return true;
     } else {
       return false;
@@ -69,10 +70,10 @@ class Board {
       this.map.bumpers.forEach(bumper => {
         bumper[1] -= 1
 
-        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
-          bumperMan.pos = bumperMan.pos.plus(new Coord(0, -80));
-          if (bumperMan.dy >= 0) {
-            bumperMan.dy = -Man.DEFAULT_SPEED;
+        this.men.filter(man => tilesMatch(man.tilePos, bumper)).forEach(bumpedMan => {
+          bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, -80));
+          if (bumpedMan.dy >= 0) {
+            bumpedMan.dy = -Man.DEFAULT_SPEED;
           }
         })
       });
@@ -80,10 +81,10 @@ class Board {
       this.map.bumpers.forEach(bumper => {
         bumper[1] += 1
 
-        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
-          bumperMan.pos = bumperMan.pos.plus(new Coord(0, 80));
-          if (bumperMan.dy <= 0) {
-            bumperMan.dy = Man.DEFAULT_SPEED;
+        this.men.filter(man => tilesMatch(man.tilePos, bumper)).forEach(bumpedMan => {
+          bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, 80));
+          if (bumpedMan.dy <= 0) {
+            bumpedMan.dy = Man.DEFAULT_SPEED;
           }
         })
       });
@@ -95,16 +96,16 @@ class Board {
   moveShuttles() {
     if (this.shuttlesMoved) {
       this.map.shuttles.forEach(shuttle => {
-        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(shuttle)).forEach(shuttleMan => {
-          shuttleMan.pos = shuttleMan.pos.plus(new Coord(-160, 0));
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle)).forEach(shuttledMan => {
+          shuttledMan.pos = shuttledMan.pos.plus(new Coord(-160, 0));
         })
 
         shuttle[0] -= 4;
       });
     } else {
       this.map.shuttles.forEach(shuttle => {
-        this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(shuttle)).forEach(shuttleMan => {
-          shuttleMan.pos = shuttleMan.pos.plus(new Coord(160, 0));
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle)).forEach(shuttledMan => {
+          shuttledMan.pos = shuttledMan.pos.plus(new Coord(160, 0));
         })
 
         shuttle[0] += 4
