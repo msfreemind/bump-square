@@ -4,7 +4,7 @@ import Coord from './coord';
 class Board {
   constructor(map) {
     this.map = map;
-    this.startPos = new Coord(map.start[0] * 40, map.start[1] * 40);
+    this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
 
     this.wallsMoved = false;
     this.shuttlesMoved = false;
@@ -71,6 +71,9 @@ class Board {
 
         this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
           bumperMan.pos = bumperMan.pos.plus(new Coord(0, -80));
+          if (bumperMan.dy >= 0) {
+            bumperMan.dy = -Man.DEFAULT_SPEED;
+          }
         })
       });
     } else {
@@ -79,6 +82,9 @@ class Board {
 
         this.men.filter(man => JSON.stringify(man.tilePos) === JSON.stringify(bumper)).forEach(bumperMan => {
           bumperMan.pos = bumperMan.pos.plus(new Coord(0, 80));
+          if (bumperMan.dy <= 0) {
+            bumperMan.dy = Man.DEFAULT_SPEED;
+          }
         })
       });
     }

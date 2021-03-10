@@ -10,8 +10,8 @@ class Man {
     this.pos = board.startPos;
     this.tilePos = board.absolutePosToMapPos(this.pos);
     
-    this.dy = 2;
-    this.dx = 2;
+    this.dy = 0;
+    this.dx = Man.DEFAULT_SPEED;
   }
 
   move() {
@@ -37,5 +37,7 @@ class Man {
     }
   }
 }
+
+Man.DEFAULT_SPEED = 2;
 
 export default Man;
