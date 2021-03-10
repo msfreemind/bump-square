@@ -116,6 +116,8 @@ class Game {
 
 Game.MAPS = {
   0: { 
+    title: "Stage 1",
+    subtitle: "Getting Your Blocks Wet",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
     end: [6, 10],
@@ -124,6 +126,8 @@ Game.MAPS = {
     bumpers: []
   },
   1: {
+    title: "Stage 2",
+    subtitle: "Up To Your Bellybutton",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
     end: [10, 10],
@@ -132,6 +136,8 @@ Game.MAPS = {
     bumpers: []
   },
   2: {
+    title: "Stage 3",
+    subtitle: "Heading to the Deep End",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
     end: [4, 14],
@@ -140,6 +146,8 @@ Game.MAPS = {
     bumpers: [[4, 9]]
   },
   3: {
+    title: "Stage 4",
+    subtitle: "Putting It All Together",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
     end: [13, 14],

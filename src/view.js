@@ -10,10 +10,10 @@ class View {
     this.ctx.font = '48px sans-serif';
     this.ctx.textAlign = "center";
     this.ctx.fillStyle = "#00FFFF";
-    this.ctx.fillText("Map #1", 500, 200);
+    this.ctx.fillText(this.board.map.title, 500, 200);
 
     this.ctx.font = '30px sans-serif';
-    this.ctx.fillText("Getting Your Blocks Wet", 500, 250);
+    this.ctx.fillText(this.board.map.subtitle, 500, 250);
 
     this.ctx.font = '48px sans-serif';
     this.ctx.fillText("Hit Enter", 500, 500);
