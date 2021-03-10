@@ -7,16 +7,18 @@ class View {
   renderMapStartScreen() {
     this.drawGameArea();
 
-    this.ctx.font = '48px sans-serif';
+    this.ctx.font = "48px Roboto";
     this.ctx.textAlign = "center";
-    this.ctx.fillStyle = "#00FFFF";
+    this.ctx.fillStyle = "black";
     this.ctx.fillText(this.board.map.title, 500, 200);
 
-    this.ctx.font = '30px sans-serif';
+    this.ctx.font = '30px Roboto';
     this.ctx.fillText(this.board.map.subtitle, 500, 250);
 
-    this.ctx.font = '48px sans-serif';
-    this.ctx.fillText("Hit Enter", 500, 500);
+    this.ctx.font = '48px Roboto';
+    this.ctx.fillText("SPACE to release ball", 500, 500);
+
+    // this.renderMap();
   }
 
   renderNextState() {
@@ -38,19 +40,19 @@ class View {
     this.drawGameArea();
 
     // Draw floor tiles
-    this.drawTile(this.board.map.start, "#0000FF");
-    this.drawTile(this.board.map.end, "#FFFF00");
-    this.board.map.floor.forEach(tile => this.drawTile(tile, "#FF00FF"));
-    this.board.map.walls.forEach(tile => this.drawTile(tile, "#FFFFFF", "A"));
-    this.board.map.shuttles.forEach(tile => this.drawTile(tile, "#FF0000", "S"));
-    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#00FF00", "D"));
+    this.drawTile(this.board.map.start, "gainsboro");
+    this.drawTile(this.board.map.end, "lime");
+    this.board.map.floor.forEach(tile => this.drawTile(tile, "#787878"));
+    this.board.map.walls.forEach(tile => this.drawTile(tile, "crimson", "A")); //orchid also works
+    this.board.map.shuttles.forEach(tile => this.drawTile(tile, "dodgerblue", "S"));
+    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#FFAF00", "D")); // FFC700 also works
   }
 
   drawGameArea() {
     this.ctx.beginPath();
 
     this.ctx.rect(0, 0, 1000, 800);
-    this.ctx.fillStyle = "#000000";
+    this.ctx.fillStyle = "white";
     this.ctx.fill();
 
     this.ctx.closePath();
@@ -64,10 +66,11 @@ class View {
     this.ctx.fill();
 
     if (letter) {
-      this.ctx.fillStyle = "#000000";
-      this.ctx.font = "bold 24px sans-serif";
+      this.ctx.fillStyle = "white";
+      this.ctx.font = "bold 26px Roboto";
+      this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
-      this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 21);
+      this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
     }
 
     this.ctx.closePath();

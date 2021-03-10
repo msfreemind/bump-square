@@ -11,7 +11,7 @@ class Board {
     this.bumpersMoved = false;
 
     this.men = [];
-    this.men.push(new Man(this, "#00FF00"));
+    this.men.push(new Man(this, "lime"));
   }
 
   absolutePosToMapPos(coord) {
