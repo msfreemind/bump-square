@@ -41,9 +41,9 @@ class View {
     this.drawTile(this.board.map.start, "#0000FF");
     this.drawTile(this.board.map.end, "#FFFF00");
     this.board.map.floor.forEach(tile => this.drawTile(tile, "#FF00FF"));
-    this.board.map.walls.forEach(tile => this.drawTile(tile, "#FFFFFF"));
-    this.board.map.shuttles.forEach(tile => this.drawTile(tile, "#FF0000"));
-    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#00FF00"));
+    this.board.map.walls.forEach(tile => this.drawTile(tile, "#FFFFFF", "A"));
+    this.board.map.shuttles.forEach(tile => this.drawTile(tile, "#FF0000", "S"));
+    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#00FF00", "D"));
   }
 
   drawGameArea() {
@@ -56,12 +56,19 @@ class View {
     this.ctx.closePath();
   }
 
-  drawTile(tile, color) {
+  drawTile(tile, color, letter) {
     this.ctx.beginPath();
 
     this.ctx.rect(40 * tile[0], 40 * tile[1], 40, 40);
     this.ctx.fillStyle = color;         
     this.ctx.fill();
+
+    if (letter) {
+      this.ctx.fillStyle = "#000000";
+      this.ctx.font = "bold 24px sans-serif";
+      this.ctx.textBaseline = "middle";
+      this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 21);
+    }
 
     this.ctx.closePath();
   }
