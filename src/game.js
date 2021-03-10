@@ -3,17 +3,19 @@ import View from './view';
 
 class Game {
   constructor(ctx) {
+    this.ctx = ctx;
     this.board = new Board(Game.MAPS[0])
     this.view = new View(ctx, this.board);
+
     this.intervalId = null;
-    this.mapIndex = 0;
-    this.levelStarted = false;
+    this.mapIndex = 0;    
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
     this.wallsMoved = false;
     this.shuttlesMoved = false;
     this.bumpersMoved = false;
+    this.levelStarted = false;
 
     this.view.renderMapStartScreen();
   }
@@ -25,7 +27,8 @@ class Game {
     this.levelStarted = false;
 
     this.board = new Board(Game.MAPS[++this.mapIndex]);
-    this.view.board = this.board;
+    this.view = new View(this.ctx, this.board);
+
     this.view.renderMapStartScreen();  
   }
 

@@ -2,6 +2,7 @@ class View {
   constructor(ctx, board) {
     this.ctx = ctx;
     this.board = board;
+    this.origMap = JSON.parse(JSON.stringify(this.board.map));
   }
 
   renderMapStartScreen() {
@@ -43,6 +44,12 @@ class View {
     this.drawTile(this.board.map.start, "gainsboro");
     this.drawTile(this.board.map.end, "lime");
     this.board.map.floor.forEach(tile => this.drawTile(tile, "#787878"));
+
+    // Draw guides
+    this.drawShuttleLines();
+    this.drawBlockSlots();
+
+    // Draw controllable blocks
     this.board.map.walls.forEach(tile => this.drawTile(tile, "crimson", "A")); //orchid also works
     this.board.map.shuttles.forEach(tile => this.drawTile(tile, "dodgerblue", "S"));
     this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#FFAF00", "D")); // FFC700 also works
@@ -64,6 +71,33 @@ class View {
       this.ctx.textBaseline = "middle";
       this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
     }
+  }
+
+  drawBlockSlots() {
+    this.origMap.walls.forEach(tile => {
+      this.ctx.fillStyle = "crimson"; 
+      this.ctx.fillRect((40 * tile[0]) + 17, (40 * tile[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * tile[0]) + 17, (40 * (tile[1] + 1)) + 17, 6, 6);
+    });
+
+    this.origMap.bumpers.forEach(tile => {
+      this.ctx.fillStyle = "#FFAF00"; 
+      this.ctx.fillRect((40 * tile[0]) + 17, (40 * tile[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * tile[0]) + 17, (40 * (tile[1] + 1)) + 17, 6, 6);
+    });
+  }
+
+  drawShuttleLines() {
+    this.origMap.shuttles.forEach(tile => {
+      this.ctx.globalAlpha = 0.25;
+      this.ctx.fillStyle = "dodgerblue"; 
+
+      for (let i = 0; i <= 4; i++) {
+        this.ctx.fillRect(40 * (tile[0] + i), 40 * tile[1], 40, 40);
+      }           
+    });
+
+    this.ctx.globalAlpha = 1.0;
   }
 }
 
