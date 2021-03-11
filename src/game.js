@@ -12,18 +12,18 @@ class Game {
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
-    this.wallsMoved = false;
-    this.shuttlesMoved = false;
-    this.bumpersMoved = false;
+    this.aBlocksMoved = false;
+    this.dBlocksMoved = false;
+    this.shuttlesMoved = false;    
     this.levelStarted = false;
 
     this.view.renderMapStartScreen();
   }
 
   loadNextMap() {
-    this.wallsMoved = false;
-    this.shuttlesMoved = false;
-    this.bumpersMoved = false;
+    this.aBlocksMoved = false;
+    this.dBlocksMoved = false;
+    this.shuttlesMoved = false;    
     this.levelStarted = false;
 
     this.board = new Board(Game.MAPS[++this.mapIndex]);
@@ -46,9 +46,9 @@ class Game {
         break;
 
       case "KeyA":
-        if (!this.wallsMoved) {
-          this.wallsMoved = true;
-          this.board.moveWalls();
+        if (!this.aBlocksMoved) {
+          this.aBlocksMoved = true;
+          this.board.moveABlocks();
         }        
         break;
 
@@ -60,9 +60,9 @@ class Game {
         break;
 
       case "KeyD":
-        if (!this.bumpersMoved) {
-          this.bumpersMoved = true;
-          this.board.moveBumpers();
+        if (!this.dBlocksMoved) {
+          this.dBlocksMoved = true;
+          this.board.moveDBlocks();
         }        
         break;
 
@@ -74,9 +74,9 @@ class Game {
   handleKeyUpEvent(event) {
     switch (event.code) {
       case "KeyA":
-        if (this.wallsMoved) {
-          this.board.moveWalls();
-          this.wallsMoved = false;
+        if (this.aBlocksMoved) {
+          this.board.moveABlocks();
+          this.aBlocksMoved = false;
         }        
         break;
 
@@ -88,9 +88,9 @@ class Game {
         break;
       
       case "KeyD":
-        if (this.bumpersMoved) {
-          this.board.moveBumpers();
-          this.bumpersMoved = false;
+        if (this.dBlocksMoved) {
+          this.board.moveDBlocks();
+          this.dBlocksMoved = false;
         }        
         break;
 
@@ -120,33 +120,33 @@ class Game {
 Game.MAPS = {
   0: { 
     title: "Stage 1",
-    subtitle: "Getting Your Blocks Wet",
+    subtitle: "Gettin' Yer Blocks Wet",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
     end: [6, 10],
-    walls: { 
+    aBlocks: { 
       0: {
         pos: [4, 10],
         movement: [0, 1]
       }
     },
-    shuttles: {},
-    bumpers: {}
+    dBlocks: {},
+    shuttles: {}    
   },
   1: {
     title: "Stage 2",
-    subtitle: "Up to Your Bellybutton",
+    subtitle: "Up to the Bellybutton",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
     end: [4, 14],
-    walls: {},
-    shuttles: {},
-    bumpers: { 
+    aBlocks: {},
+    dBlocks: { 
       0: {
         pos: [4, 9],
         movement: [0, 1]
       }
-    }
+    },
+    shuttles: {}
   },
   2: {
     title: "Stage 3",
@@ -154,14 +154,14 @@ Game.MAPS = {
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
     end: [10, 10],
-    walls: {},
+    aBlocks: {},
+    dBlocks: {},
     shuttles: { 
       0: {
         pos: [5, 10],
         movement: [4, 0]
       }
-    },
-    bumpers: {}
+    }
   },  
   3: {
     title: "Stage 4",
@@ -169,9 +169,15 @@ Game.MAPS = {
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
     end: [13, 14],
-    walls: { 
+    aBlocks: { 
       0: {
         pos: [11, 14],
+        movement: [0, 1]
+      }
+    },
+    dBlocks: { 
+      0: {
+        pos: [4, 9],
         movement: [0, 1]
       }
     },
@@ -179,12 +185,6 @@ Game.MAPS = {
       0: {
         pos: [4, 14],
         movement: [4, 0]
-      }
-    },
-    bumpers: { 
-      0: {
-        pos: [4, 9],
-        movement: [0, 1]
       }
     }
   }

@@ -63,9 +63,9 @@ class View {
     this.drawBlockSlots();
 
     // Draw controllable blocks
-    this.board.getWalls().forEach(wall => this.drawTile(wall.pos, "crimson", "A")); //orchid also works
+    this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, "crimson", "A")); //orchid also works
     this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, "dodgerblue", "S"));
-    this.board.getBumpers().forEach(bumper => this.drawTile(bumper.pos, "#FFAF00", "D")); // FFC700 also works
+    this.board.getDBlocks().forEach(dBlock => this.drawTile(dBlock.pos, "#FFAF00", "D")); // FFC700 also works
   }
 
   drawGameArea() {
@@ -87,16 +87,16 @@ class View {
   }
 
   drawBlockSlots() {
-    Object.values(this.origMap.walls).forEach(wall => {
+    Object.values(this.origMap.aBlocks).forEach(aBlock => {
       this.ctx.fillStyle = "crimson"; 
-      this.ctx.fillRect((40 * wall.pos[0]) + 17, (40 * wall.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * wall.pos[0]) + 17, (40 * (wall.pos[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * aBlock.pos[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * (aBlock.pos[1] + 1)) + 17, 6, 6);
     });
 
-    Object.values(this.origMap.bumpers).forEach(bumper => {
+    Object.values(this.origMap.dBlocks).forEach(dBlock => {
       this.ctx.fillStyle = "#FFAF00"; 
-      this.ctx.fillRect((40 * bumper.pos[0]) + 17, (40 * bumper.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * bumper.pos[0]) + 17, (40 * (bumper.pos[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * dBlock.pos[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * (dBlock.pos[1] + 1)) + 17, 6, 6);
     });
   }
 

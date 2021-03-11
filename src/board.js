@@ -7,28 +7,28 @@ class Board {
     this.map = map;
     this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
 
-    this.wallsMoved = false;
-    this.shuttlesMoved = false;
-    this.bumpersMoved = false;
+    this.aBlocksMoved = false;
+    this.dBlocksMoved = false;
+    this.shuttlesMoved = false;    
 
     this.men = [];
     this.men.push(new Man(this, "lime"));
   }
 
-  getWalls() {
-    return Object.values(this.map.walls);
+  getABlocks() {
+    return Object.values(this.map.aBlocks);
   }
 
-  getBumpers() {
-    return Object.values(this.map.bumpers);
+  getDBlocks() {
+    return Object.values(this.map.dBlocks);
   }
 
   getShuttles() {
     return Object.values(this.map.shuttles);
   }
 
-  hitWalls(tileCoord) {
-    return this.getWalls().concat(this.getBumpers()).some(tile => {
+  hitPushBlocks(tileCoord) {
+    return this.getABlocks().concat(this.getDBlocks()).some(tile => {
       return tilesMatch(tile.pos, tileCoord);
     });
   }
@@ -52,7 +52,7 @@ class Board {
 
     if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
       return true;
-    } else if (this.hitWalls(tileCoord)) {
+    } else if (this.hitPushBlocks(tileCoord)) {
       return false;
     } else {
       return this.onFloor(tileCoord);
@@ -73,27 +73,27 @@ class Board {
     this.men.splice(idx, 1);
   }
 
-  moveWalls() {
-    if (this.wallsMoved) {
-      this.getWalls().forEach(wall => this.pushBlock(wall, Board.DISENGAGE));
+  moveABlocks() {
+    if (this.aBlocksMoved) {
+      this.getABlocks().forEach(aBlock => this.movePushBlock(aBlock, Board.DISENGAGE));
     } else {
-      this.getWalls().forEach(wall => this.pushBlock(wall, Board.ENGAGE));
+      this.getABlocks().forEach(aBlock => this.movePushBlock(aBlock, Board.ENGAGE));
     }
 
-    this.wallsMoved = !this.wallsMoved;
+    this.aBlocksMoved = !this.aBlocksMoved;
   }
 
-  moveBumpers() {
-    if (this.bumpersMoved) {
-      this.getBumpers().forEach(bumper => this.pushBlock(bumper, Board.DISENGAGE));
+  moveDBlocks() {
+    if (this.dBlocksMoved) {
+      this.getDBlocks().forEach(dBlock => this.movePushBlock(dBlock, Board.DISENGAGE));
     } else {
-      this.getBumpers().forEach(bumper => this.pushBlock(bumper, Board.ENGAGE));
+      this.getDBlocks().forEach(dBlock => this.movePushBlock(dBlock, Board.ENGAGE));
     }
 
-    this.bumpersMoved = !this.bumpersMoved;
+    this.dBlocksMoved = !this.dBlocksMoved;
   }
 
-  pushBlock(block, actionType) {
+  movePushBlock(block, actionType) {
     block.pos[0] += block.movement[0] * actionType;
     block.pos[1] += block.movement[1] * actionType;
 
