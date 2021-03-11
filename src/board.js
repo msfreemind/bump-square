@@ -27,7 +27,7 @@ class Board {
     return Object.values(this.map.shuttles);
   }
 
-  hitPushBlocks(tileCoord) {
+  pushBlockCollision(tileCoord) {
     return this.getABlocks().concat(this.getDBlocks()).some(tile => {
       return tilesMatch(tile.pos, tileCoord);
     });
@@ -52,7 +52,7 @@ class Board {
 
     if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
       return true;
-    } else if (this.hitPushBlocks(tileCoord)) {
+    } else if (this.pushBlockCollision(tileCoord)) {
       return false;
     } else {
       return this.onFloor(tileCoord);

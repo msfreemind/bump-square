@@ -114,6 +114,15 @@ class View {
 
     this.ctx.globalAlpha = currGlobalAlpha;
   }
+
+  async renderGoalFlash() {
+    for (let i = 0; i < 3; i++) {
+      this.drawTile(this.board.map.end, "magenta");
+      await new Promise(r => setTimeout(r, 60));
+      this.drawTile(this.board.map.end, "black");
+      await new Promise(r => setTimeout(r, 60));
+    }
+  }
 }
 
 View.MAN_RADIUS = 5;

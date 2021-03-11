@@ -15,7 +15,7 @@ class Man {
     this.dx = Man.DEFAULT_SPEED;
   }
 
-  move() {
+  async move() {
     if(!this.board.validPosition( this.pos.plus(new Coord(this.moveDelta(this.dx), 0))) ) {
         this.dx = -this.dx;
     }
@@ -27,7 +27,10 @@ class Man {
     this.pos = this.pos.plus(new Coord(this.dx, this.dy));
     this.tilePos = absolutePosToMapPos(this.pos);
 
-    this.reachedFinish = this.board.atFinish(this.pos);
+    if (this.board.atFinish(this.pos)) {
+      await new Promise(r => setTimeout(r, 150));
+      this.reachedFinish = true;
+    }
   }
 
   moveDelta(initialDelta) {

@@ -99,17 +99,19 @@ class Game {
     }
   }
 
-  step() {
+  async step() {
     this.board.men.forEach((man, idx) => {
       man.move();
 
       if (man.reachedFinish) {
         this.board.removeMan(idx);
+        this.view.renderGoalFlash();
       }
     });
 
     if (this.board.men.length === 0) {
-      window.clearInterval(this.intervalId);
+      window.clearInterval(this.intervalId);      
+      await new Promise(r => setTimeout(r, 500));
       this.loadNextMap();
     } else {
       this.view.renderNextState();
