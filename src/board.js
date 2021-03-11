@@ -75,15 +75,9 @@ class Board {
 
   moveWalls() {
     if (this.wallsMoved) {
-      this.getWalls().forEach(wall => {
-        wall.pos[0] -= wall.movement[0];
-        wall.pos[1] -= wall.movement[1];
-      });
+      this.getWalls().forEach(wall => this.pushBlock(wall, Board.DISENGAGE));
     } else {
-      this.getWalls().forEach(wall => {
-        wall.pos[0] += wall.movement[0];
-        wall.pos[1] += wall.movement[1];
-      });
+      this.getWalls().forEach(wall => this.pushBlock(wall, Board.ENGAGE));
     }
 
     this.wallsMoved = !this.wallsMoved;
@@ -91,32 +85,29 @@ class Board {
 
   moveBumpers() {
     if (this.bumpersMoved) {
-      this.getBumpers().forEach(bumper => {
-        bumper.pos[0] -= bumper.movement[0];
-        bumper.pos[1] -= bumper.movement[1];
-
-        this.men.filter(man => tilesMatch(man.tilePos, bumper.pos)).forEach(bumpedMan => {
-          bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, -80));
-          if (bumpedMan.dy >= 0) {
-            bumpedMan.dy = -Man.DEFAULT_SPEED;
-          }
-        })
-      });
+      this.getBumpers().forEach(bumper => this.pushBlock(bumper, Board.DISENGAGE));
     } else {
-      this.getBumpers().forEach(bumper => {
-        bumper.pos[0] += bumper.movement[0];
-        bumper.pos[1] += bumper.movement[1];
-
-        this.men.filter(man => tilesMatch(man.tilePos, bumper.pos)).forEach(bumpedMan => {
-          bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, 80));
-          if (bumpedMan.dy <= 0) {
-            bumpedMan.dy = Man.DEFAULT_SPEED;
-          }
-        })
-      });
+      this.getBumpers().forEach(bumper => this.pushBlock(bumper, Board.ENGAGE));
     }
 
     this.bumpersMoved = !this.bumpersMoved;
+  }
+
+  pushBlock(block, actionType) {
+    block.pos[0] += block.movement[0] * actionType;
+    block.pos[1] += block.movement[1] * actionType;
+
+    this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
+      bumpedMan.pos = bumpedMan.pos.plus(
+        new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType)
+      );
+
+      if (bumpedMan.dx === 0 && block.movement[0] !== 0) {
+        bumpedMan.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+      } else if (bumpedMan.dy === 0 && block.movement[1] !== 0) {
+        bumpedMan.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+      } 
+    });
   }
 
   moveShuttles() {
@@ -143,5 +134,8 @@ class Board {
     this.shuttlesMoved = !this.shuttlesMoved;
   }
 }
+
+Board.ENGAGE = 1;
+Board.DISENGAGE = -1;
 
 export default Board;
