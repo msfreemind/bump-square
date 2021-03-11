@@ -135,7 +135,7 @@ Game.MAPS = {
   },
   1: {
     title: "Stage 2",
-    subtitle: "Up To Your Bellybutton",
+    subtitle: "Up to Your Bellybutton",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
     end: [4, 14],
@@ -150,7 +150,7 @@ Game.MAPS = {
   },
   2: {
     title: "Stage 3",
-    subtitle: "Heading to the Deep End",
+    subtitle: "Into the Deep End",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
     end: [10, 10],

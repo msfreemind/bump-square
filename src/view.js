@@ -10,20 +10,31 @@ class View {
 
     this.ctx.font = "700 48px Roboto";
     this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "alphabetic";
     this.ctx.fillStyle = "black";
-    this.ctx.fillText(this.board.map.title, 500, 200);
+    this.ctx.fillText(this.board.map.title, 500, 300);
 
-    this.ctx.font = '30px Roboto';
-    this.ctx.fillText(this.board.map.subtitle, 500, 250);
+    this.ctx.beginPath();
+    this.ctx.moveTo(275, 320);
+    this.ctx.lineTo(725, 320);
+    this.ctx.lineWidth = 2;
+    this.ctx.strokeStyle = "black";
+    this.ctx.stroke();
 
-    this.ctx.font = '48px Roboto';
-    this.ctx.fillText("Hit Enter", 500, 500);
+    this.ctx.font = '400 26px Roboto';
+    this.ctx.fillText(this.board.map.subtitle, 500, 355);
 
-    // this.renderMap();
+    this.ctx.font = '700 30px Roboto';
+    this.ctx.fillStyle = "crimson";
+    this.ctx.fillText("Hit Enter", 500, 665);
+
+    this.ctx.globalAlpha = 0.4;
+    this.renderMap(false);
+    this.ctx.globalAlpha = 1.0;
   }
 
   renderNextState() {
-    this.renderMap();
+    this.renderMap(true);
 
     this.board.men.forEach(man => {
       this.ctx.beginPath();
@@ -36,9 +47,11 @@ class View {
     });
   }
 
-  renderMap() {
+  renderMap(drawGameArea) {
     // Draw game area
-    this.drawGameArea();
+    if (drawGameArea) {
+      this.drawGameArea();
+    }    
 
     // Draw floor tiles
     this.drawTile(this.board.map.start, "gainsboro");
@@ -88,16 +101,18 @@ class View {
   }
 
   drawShuttleLines() {
+    const currGlobalAlpha = this.ctx.globalAlpha;
+
     Object.values(this.origMap.shuttles).forEach(shuttle => {
       this.ctx.globalAlpha = 0.2;
       this.ctx.fillStyle = "dodgerblue"; 
 
       for (let i = 0; i <= 4; i++) {
         this.ctx.fillRect(40 * (shuttle.pos[0] + i), 40 * shuttle.pos[1], 40, 40);
-      }           
+      }
     });
 
-    this.ctx.globalAlpha = 1.0;
+    this.ctx.globalAlpha = currGlobalAlpha;
   }
 }
 
