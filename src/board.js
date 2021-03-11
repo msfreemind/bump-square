@@ -1,6 +1,6 @@
 import Man from './man';
 import Coord from './coord';
-import { tilesMatch } from './utils';
+import { tilesMatch, absolutePosToMapPos } from './utils';
 
 class Board {
   constructor(map) {
@@ -15,34 +15,52 @@ class Board {
     this.men.push(new Man(this, "lime"));
   }
 
-  absolutePosToMapPos(coord) {
-    return [Math.floor(coord.i / 40), Math.floor(coord.j / 40)];
+  getWalls() {
+    return Object.values(this.map.walls);
+  }
+
+  getBumpers() {
+    return Object.values(this.map.bumpers);
+  }
+
+  getShuttles() {
+    return Object.values(this.map.shuttles);
+  }
+
+  hitWalls(tileCoord) {
+    return this.getWalls().concat(this.getBumpers()).some(tile => {
+      return tilesMatch(tile.pos, tileCoord);
+    });
+  }
+
+  onFloor(tileCoord) {
+    let floor = this.map.floor.some(tile => {
+      return tilesMatch(tile, tileCoord);
+    });
+
+    if (floor) {
+      return true;
+    } else {
+      return this.getShuttles().some(tile => {
+        return tilesMatch(tile.pos, tileCoord);
+      });
+    }
   }
 
   validPosition(coord) {
-    const tileCoord = this.absolutePosToMapPos(coord);
+    const tileCoord = absolutePosToMapPos(coord);
 
     if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
       return true;
+    } else if (this.hitWalls(tileCoord)) {
+      return false;
     } else {
-      let hitWall = this.map.walls.concat(this.map.bumpers).some(tile => {
-        return tilesMatch(tile, tileCoord);
-      });
-  
-      if (hitWall) {
-        return false;
-      } else {
-        let onFloor = this.map.floor.concat(this.map.shuttles).some(tile => {
-          return tilesMatch(tile, tileCoord);
-        });
-    
-        return onFloor;
-      }  
-    }  
+      return this.onFloor(tileCoord);
+    }
   }
 
   atFinish(coord) {
-    const tileCoord = this.absolutePosToMapPos(coord);
+    const tileCoord = absolutePosToMapPos(coord);
 
     if (tilesMatch(this.map.end, tileCoord)) {
       return true;
@@ -57,9 +75,15 @@ class Board {
 
   moveWalls() {
     if (this.wallsMoved) {
-      this.map.walls.forEach(wall => wall[1] -= 1);
+      this.getWalls().forEach(wall => {
+        wall.pos[0] -= wall.movement[0];
+        wall.pos[1] -= wall.movement[1];
+      });
     } else {
-      this.map.walls.forEach(wall => wall[1] += 1);
+      this.getWalls().forEach(wall => {
+        wall.pos[0] += wall.movement[0];
+        wall.pos[1] += wall.movement[1];
+      });
     }
 
     this.wallsMoved = !this.wallsMoved;
@@ -67,10 +91,11 @@ class Board {
 
   moveBumpers() {
     if (this.bumpersMoved) {
-      this.map.bumpers.forEach(bumper => {
-        bumper[1] -= 1
+      this.getBumpers().forEach(bumper => {
+        bumper.pos[0] -= bumper.movement[0];
+        bumper.pos[1] -= bumper.movement[1];
 
-        this.men.filter(man => tilesMatch(man.tilePos, bumper)).forEach(bumpedMan => {
+        this.men.filter(man => tilesMatch(man.tilePos, bumper.pos)).forEach(bumpedMan => {
           bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, -80));
           if (bumpedMan.dy >= 0) {
             bumpedMan.dy = -Man.DEFAULT_SPEED;
@@ -78,10 +103,11 @@ class Board {
         })
       });
     } else {
-      this.map.bumpers.forEach(bumper => {
-        bumper[1] += 1
+      this.getBumpers().forEach(bumper => {
+        bumper.pos[0] += bumper.movement[0];
+        bumper.pos[1] += bumper.movement[1];
 
-        this.men.filter(man => tilesMatch(man.tilePos, bumper)).forEach(bumpedMan => {
+        this.men.filter(man => tilesMatch(man.tilePos, bumper.pos)).forEach(bumpedMan => {
           bumpedMan.pos = bumpedMan.pos.plus(new Coord(0, 80));
           if (bumpedMan.dy <= 0) {
             bumpedMan.dy = Man.DEFAULT_SPEED;
@@ -95,20 +121,22 @@ class Board {
 
   moveShuttles() {
     if (this.shuttlesMoved) {
-      this.map.shuttles.forEach(shuttle => {
-        this.men.filter(man => tilesMatch(man.tilePos, shuttle)).forEach(shuttledMan => {
+      this.getShuttles().forEach(shuttle => {
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle.pos)).forEach(shuttledMan => {
           shuttledMan.pos = shuttledMan.pos.plus(new Coord(-160, 0));
         })
 
-        shuttle[0] -= 4;
+        shuttle.pos[0] -= shuttle.movement[0];
+        shuttle.pos[1] -= shuttle.movement[1];
       });
     } else {
-      this.map.shuttles.forEach(shuttle => {
-        this.men.filter(man => tilesMatch(man.tilePos, shuttle)).forEach(shuttledMan => {
+      this.getShuttles().forEach(shuttle => {
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle.pos)).forEach(shuttledMan => {
           shuttledMan.pos = shuttledMan.pos.plus(new Coord(160, 0));
         })
 
-        shuttle[0] += 4
+        shuttle.pos[0] += shuttle.movement[0];
+        shuttle.pos[1] += shuttle.movement[1];
       });
     }
 

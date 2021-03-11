@@ -1,4 +1,5 @@
 import Coord from './coord';
+import { absolutePosToMapPos } from './utils';
 
 class Man {
   constructor(board, color) {
@@ -8,7 +9,7 @@ class Man {
 
     this.board = board;
     this.pos = board.startPos;
-    this.tilePos = board.absolutePosToMapPos(this.pos);
+    this.tilePos = absolutePosToMapPos(this.pos);
     
     this.dy = 0;
     this.dx = Man.DEFAULT_SPEED;
@@ -24,7 +25,7 @@ class Man {
     }
     
     this.pos = this.pos.plus(new Coord(this.dx, this.dy));
-    this.tilePos = this.board.absolutePosToMapPos(this.pos);
+    this.tilePos = absolutePosToMapPos(this.pos);
 
     this.reachedFinish = this.board.atFinish(this.pos);
   }

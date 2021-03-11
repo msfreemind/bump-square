@@ -124,39 +124,69 @@ Game.MAPS = {
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
     end: [6, 10],
-    walls: [[4, 10]],
-    shuttles: [],
-    bumpers: []
+    walls: { 
+      0: {
+        pos: [4, 10],
+        movement: [0, 1]
+      }
+    },
+    shuttles: {},
+    bumpers: {}
   },
   1: {
     title: "Stage 2",
     subtitle: "Up To Your Bellybutton",
     start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
-    end: [10, 10],
-    walls: [],
-    shuttles: [[5, 10]],
-    bumpers: []
+    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
+    end: [4, 14],
+    walls: {},
+    shuttles: {},
+    bumpers: { 
+      0: {
+        pos: [4, 9],
+        movement: [0, 1]
+      }
+    }
   },
   2: {
     title: "Stage 3",
     subtitle: "Heading to the Deep End",
     start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
-    end: [4, 14],
-    walls: [],
-    shuttles: [],
-    bumpers: [[4, 9]]
-  },
+    floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
+    end: [10, 10],
+    walls: {},
+    shuttles: { 
+      0: {
+        pos: [5, 10],
+        movement: [4, 0]
+      }
+    },
+    bumpers: {}
+  },  
   3: {
     title: "Stage 4",
     subtitle: "Putting It All Together",
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
     end: [13, 14],
-    walls: [[11, 14]],
-    shuttles: [[4, 14]],
-    bumpers: [[4, 9]]
+    walls: { 
+      0: {
+        pos: [11, 14],
+        movement: [0, 1]
+      }
+    },
+    shuttles: { 
+      0: {
+        pos: [4, 14],
+        movement: [4, 0]
+      }
+    },
+    bumpers: { 
+      0: {
+        pos: [4, 9],
+        movement: [0, 1]
+      }
+    }
   }
 }
 

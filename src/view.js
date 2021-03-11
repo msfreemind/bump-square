@@ -50,9 +50,9 @@ class View {
     this.drawBlockSlots();
 
     // Draw controllable blocks
-    this.board.map.walls.forEach(tile => this.drawTile(tile, "crimson", "A")); //orchid also works
-    this.board.map.shuttles.forEach(tile => this.drawTile(tile, "dodgerblue", "S"));
-    this.board.map.bumpers.forEach(tile => this.drawTile(tile, "#FFAF00", "D")); // FFC700 also works
+    this.board.getWalls().forEach(wall => this.drawTile(wall.pos, "crimson", "A")); //orchid also works
+    this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, "dodgerblue", "S"));
+    this.board.getBumpers().forEach(bumper => this.drawTile(bumper.pos, "#FFAF00", "D")); // FFC700 also works
   }
 
   drawGameArea() {
@@ -74,26 +74,26 @@ class View {
   }
 
   drawBlockSlots() {
-    this.origMap.walls.forEach(tile => {
+    Object.values(this.origMap.walls).forEach(wall => {
       this.ctx.fillStyle = "crimson"; 
-      this.ctx.fillRect((40 * tile[0]) + 17, (40 * tile[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * tile[0]) + 17, (40 * (tile[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * wall.pos[0]) + 17, (40 * wall.pos[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * wall.pos[0]) + 17, (40 * (wall.pos[1] + 1)) + 17, 6, 6);
     });
 
-    this.origMap.bumpers.forEach(tile => {
+    Object.values(this.origMap.bumpers).forEach(bumper => {
       this.ctx.fillStyle = "#FFAF00"; 
-      this.ctx.fillRect((40 * tile[0]) + 17, (40 * tile[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * tile[0]) + 17, (40 * (tile[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * bumper.pos[0]) + 17, (40 * bumper.pos[1]) + 17, 6, 6);
+      this.ctx.fillRect((40 * bumper.pos[0]) + 17, (40 * (bumper.pos[1] + 1)) + 17, 6, 6);
     });
   }
 
   drawShuttleLines() {
-    this.origMap.shuttles.forEach(tile => {
-      this.ctx.globalAlpha = 0.25;
+    Object.values(this.origMap.shuttles).forEach(shuttle => {
+      this.ctx.globalAlpha = 0.2;
       this.ctx.fillStyle = "dodgerblue"; 
 
       for (let i = 0; i <= 4; i++) {
-        this.ctx.fillRect(40 * (tile[0] + i), 40 * tile[1], 40, 40);
+        this.ctx.fillRect(40 * (shuttle.pos[0] + i), 40 * shuttle.pos[1], 40, 40);
       }           
     });
 
