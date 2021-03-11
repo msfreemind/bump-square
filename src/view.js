@@ -8,7 +8,7 @@ class View {
   renderMapStartScreen() {
     this.drawGameArea();
 
-    this.ctx.font = "48px Roboto";
+    this.ctx.font = "700 48px Roboto";
     this.ctx.textAlign = "center";
     this.ctx.fillStyle = "black";
     this.ctx.fillText(this.board.map.title, 500, 200);
@@ -17,7 +17,7 @@ class View {
     this.ctx.fillText(this.board.map.subtitle, 500, 250);
 
     this.ctx.font = '48px Roboto';
-    this.ctx.fillText("SPACE to release ball", 500, 500);
+    this.ctx.fillText("Hit Enter", 500, 500);
 
     // this.renderMap();
   }
