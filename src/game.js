@@ -1,10 +1,11 @@
 import Board from './board';
 import View from './view';
+import { MAPS } from './maps';
 
 class Game {
   constructor(ctx) {
     this.ctx = ctx;
-    this.board = new Board(Game.MAPS[0])
+    this.board = new Board(MAPS[0])
     this.view = new View(ctx, this.board);
 
     this.intervalId = null;
@@ -26,7 +27,7 @@ class Game {
     this.shuttlesMoved = false;    
     this.levelStarted = false;
 
-    this.board = new Board(Game.MAPS[++this.mapIndex]);
+    this.board = new Board(MAPS[++this.mapIndex]);
     this.view = new View(this.ctx, this.board);
 
     this.view.renderMapStartScreen();  
@@ -111,7 +112,7 @@ class Game {
 
     if (this.board.men.length === 0) {
       window.clearInterval(this.intervalId);      
-      await new Promise(r => setTimeout(r, 500));
+      await new Promise(r => setTimeout(r, 610));
       this.loadNextMap();
     } else {
       this.view.renderNextState();
@@ -119,79 +120,6 @@ class Game {
   }
 }
 
-Game.MAPS = {
-  0: { 
-    title: "Stage 1",
-    subtitle: "Gettin' Yer Blocks Wet",
-    start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
-    end: [6, 10],
-    aBlocks: { 
-      0: {
-        pos: [4, 10],
-        movement: [0, 1]
-      }
-    },
-    dBlocks: {},
-    shuttles: {}    
-  },
-  1: {
-    title: "Stage 2",
-    subtitle: "Up to the Bellybutton",
-    start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
-    end: [4, 14],
-    aBlocks: {},
-    dBlocks: { 
-      0: {
-        pos: [4, 9],
-        movement: [0, 1]
-      }
-    },
-    shuttles: {}
-  },
-  2: {
-    title: "Stage 3",
-    subtitle: "Into the Deep End",
-    start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
-    end: [10, 10],
-    aBlocks: {},
-    dBlocks: {},
-    shuttles: { 
-      0: {
-        pos: [5, 10],
-        movement: [4, 0]
-      }
-    }
-  },  
-  3: {
-    title: "Stage 4",
-    subtitle: "Putting It All Together",
-    start: [0, 10],
-    floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
-    end: [13, 14],
-    aBlocks: { 
-      0: {
-        pos: [11, 14],
-        movement: [0, 1]
-      }
-    },
-    dBlocks: { 
-      0: {
-        pos: [4, 9],
-        movement: [0, 1]
-      }
-    },
-    shuttles: { 
-      0: {
-        pos: [4, 14],
-        movement: [4, 0]
-      }
-    }
-  }
-}
-
-Game.STEP_MILLIS = 15;
+Game.STEP_MILLIS = 5;
 
 export default Game;

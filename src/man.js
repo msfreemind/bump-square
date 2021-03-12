@@ -28,7 +28,7 @@ class Man {
     this.tilePos = absolutePosToMapPos(this.pos);
 
     if (this.board.atFinish(this.pos)) {
-      await new Promise(r => setTimeout(r, 150));
+      await new Promise(r => setTimeout(r, 75));
       this.reachedFinish = true;
     }
   }
@@ -42,6 +42,6 @@ class Man {
   }
 }
 
-Man.DEFAULT_SPEED = 2;
+Man.DEFAULT_SPEED = 1;
 
 export default Man;
