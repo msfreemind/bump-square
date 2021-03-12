@@ -2,12 +2,13 @@ class View {
   constructor(ctx, board) {
     this.ctx = ctx;
     this.board = board;
-    this.origMap = JSON.parse(JSON.stringify(this.board.map));
+    this.origMap = JSON.parse(JSON.stringify(this.board.map)); // Make a deep copy of map object
   }
 
   renderMapStartScreen() {
     this.drawGameArea();
 
+    // Draw stage info
     this.ctx.font = "700 48px Roboto";
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "alphabetic";
@@ -28,6 +29,7 @@ class View {
     this.ctx.fillStyle = "crimson";
     this.ctx.fillText("Hit Enter", 500, 665);
 
+    // Render map preview
     this.ctx.globalAlpha = 0.4;
     this.renderMap(false);
     this.ctx.globalAlpha = 1.0;
@@ -90,13 +92,13 @@ class View {
     Object.values(this.origMap.aBlocks).forEach(aBlock => {
       this.ctx.fillStyle = "crimson"; 
       this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * aBlock.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * (aBlock.pos[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * (aBlock.pos[0] + aBlock.movement[0])) + 17, (40 * (aBlock.pos[1] + aBlock.movement[1])) + 17, 6, 6);
     });
 
     Object.values(this.origMap.dBlocks).forEach(dBlock => {
       this.ctx.fillStyle = "#FFAF00"; 
       this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * dBlock.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * (dBlock.pos[1] + 1)) + 17, 6, 6);
+      this.ctx.fillRect((40 * (dBlock.pos[0] + dBlock.movement[0])) + 17, (40 * (dBlock.pos[1] + dBlock.movement[1])) + 17, 6, 6);
     });
   }
 
@@ -105,22 +107,31 @@ class View {
 
     Object.values(this.origMap.shuttles).forEach(shuttle => {
       this.ctx.globalAlpha = 0.2;
-      this.ctx.fillStyle = "dodgerblue"; 
 
-      for (let i = 0; i <= 4; i++) {
-        this.ctx.fillRect(40 * (shuttle.pos[0] + i), 40 * shuttle.pos[1], 40, 40);
-      }
+      if (shuttle.movement[0] !== 0) { // If the movement is along the x-axis
+        const dirVal = shuttle.movement[0] > 0 ? 1 : -1;
+
+        for (let i = 0; i <= Math.abs(shuttle.movement[0]); i++) {
+          this.drawTile([shuttle.pos[0] + (i * dirVal), shuttle.pos[1]], "dodgerblue")
+        }
+      } else { // Else: the movement is along the y-axis
+        const dirVal = shuttle.movement[1] > 0 ? 1 : -1;
+
+        for (let i = 0; i <= Math.abs(shuttle.movement[1]); i++) {
+          this.drawTile([shuttle.pos[0], shuttle.pos[1] + (i * dirVal)], "dodgerblue")
+        }
+      }      
     });
 
     this.ctx.globalAlpha = currGlobalAlpha;
   }
 
   async renderGoalFlash() {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
       this.drawTile(this.board.map.end, "magenta");
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 45));
       this.drawTile(this.board.map.end, "black");
-      await new Promise(r => setTimeout(r, 60));
+      await new Promise(r => setTimeout(r, 45));
     }
   }
 }
