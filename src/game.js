@@ -112,7 +112,7 @@ class Game {
 
     if (this.board.men.length === 0) {
       window.clearInterval(this.intervalId);      
-      await new Promise(r => setTimeout(r, 610));
+      await new Promise(r => setTimeout(r, 450));
       this.loadNextMap();
     } else {
       this.view.renderNextState();
@@ -120,6 +120,6 @@ class Game {
   }
 }
 
-Game.STEP_MILLIS = 5;
+Game.STEP_MILLIS = 8;
 
 export default Game;

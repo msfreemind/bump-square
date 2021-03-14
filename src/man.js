@@ -5,7 +5,6 @@ class Man {
   constructor(board, color) {
     this.color = color;
     this.reachedFinish = false;
-    this.bumpedWall = false;
 
     this.board = board;
     this.pos = board.startPos;
@@ -17,18 +16,12 @@ class Man {
 
   async move() {
     if (this.dx !== 0) {
-      if ( !this.board.validPosition( this.pos.plus(new Coord(this.moveDelta(this.dx), 0)), true) ) {
-        this.dx = -this.dx;
-        this.bumpedWall = true;
-      } else {
-        this.bumpedWall = false;
+      if ( !this.board.validPosition( this.pos.plus(new Coord((20 * this.dx), 0)), true) ) {
+        this.reorient();
       }
-    } else if (this.dy !== 0) {
-      if ( !this.board.validPosition( this.pos.plus(new Coord(0, this.moveDelta(this.dy))), true) ) {
-        this.dy = -this.dy;
-        this.bumpedWall = true;
-      } else {
-        this.bumpedWall = false;
+    } else {
+      if ( !this.board.validPosition( this.pos.plus(new Coord(0, (20 * this.dy))), true) ) {
+        this.reorient();
       }
     }   
 
@@ -36,11 +29,8 @@ class Man {
     this.tilePos = absolutePosToMapPos(this.pos);
 
     if (this.board.atFinish(this.pos)) {
-      await new Promise(r => setTimeout(r, 75));
+      await new Promise(r => setTimeout(r, 150));
       this.reachedFinish = true;
-    } else if (this.bumpedWall) {
-      await new Promise(r => setTimeout(r, 75));
-      this.reorient();
     }
   }
 
@@ -52,38 +42,26 @@ class Man {
     }
   }
 
-  async reorient() {
+  reorient() {
     if (this.dx !== 0) {
       if (this.board.validPosition([this.tilePos[0], this.tilePos[1] + this.dx], false)) {
-        const oldDx = this.dx;
+        this.dy = this.dx;
         this.dx = 0;
-
-        await new Promise(r => setTimeout(r, 75));
-
-        this.dy = oldDx;
       } else if (this.board.validPosition([this.tilePos[0], this.tilePos[1] - this.dx], false)) {
-        const oldDx = this.dx;
+        this.dy = -this.dx;
         this.dx = 0;
-
-        await new Promise(r => setTimeout(r, 75));
-
-        this.dy = -oldDx;
+      } else {
+        this.dx = -this.dx;
       }
     } else {
       if (this.board.validPosition([this.tilePos[0] + this.dy, this.tilePos[1]], false)) {
-        const oldDy = this.dy;
+        this.dx = this.dy;
         this.dy = 0;
-
-        await new Promise(r => setTimeout(r, 75));
-
-        this.dx = oldDy;
       } else if (this.board.validPosition([this.tilePos[0] - this.dy, this.tilePos[1]], false)) {
-        const oldDy = this.dy;
+        this.dx = -this.dy;
         this.dy = 0;
-
-        await new Promise(r => setTimeout(r, 75));
-
-        this.dx = -oldDy;
+      } else {
+        this.dy = -this.dy;
       }
     }
   }

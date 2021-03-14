@@ -127,11 +127,11 @@ class View {
   }
 
   async renderGoalFlash() {
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 3; i++) {
       this.drawTile(this.board.map.end, "magenta");
-      await new Promise(r => setTimeout(r, 45));
+      await new Promise(r => setTimeout(r, 48));
       this.drawTile(this.board.map.end, "black");
-      await new Promise(r => setTimeout(r, 45));
+      await new Promise(r => setTimeout(r, 48));
     }
   }
 }
