@@ -78,6 +78,12 @@ class View {
     this.ctx.fillRect(0, 0, 1000, 800);
   }
 
+  printTime(time) {
+    this.ctx.font = '400 26px Roboto';
+    this.ctx.fillStyle = "black";
+    this.ctx.fillText(Math.floor(time/1000), 400, 700);
+  }
+
   drawTile(tile, color, letter) {
     this.ctx.fillStyle = color; 
     this.ctx.fillRect(40 * tile[0], 40 * tile[1], 40, 40);

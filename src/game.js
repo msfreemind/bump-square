@@ -19,6 +19,9 @@ class Game {
     this.shuttlesMoved = false;    
     this.levelStarted = false;
 
+    this.timeRemaining = MAPS[0].timeLimit;
+    this.tickRate = MAPS[0].tickRate;
+
     this.view.renderMapStartScreen();
   }
 
@@ -30,6 +33,8 @@ class Game {
 
     this.board = new Board(MAPS[++this.mapIndex]);
     this.view = new View(this.ctx, this.board);
+    this.timeRemaining = MAPS[this.mapIndex].timeLimit;
+    this.tickRate = MAPS[this.mapIndex].tickRate;
 
     this.view.renderMapStartScreen();  
   }
@@ -41,7 +46,7 @@ class Game {
           this.levelStarted = true;
           this.stageIntervalId = window.setInterval(
             this.step.bind(this),
-            Game.STEP_MILLIS
+            this.tickRate
           );
           this.playerIntervalId = window.setInterval(
             this.board.loadPlayer.bind(this.board),
@@ -124,10 +129,13 @@ class Game {
       this.loadNextMap();
     } else {
       this.view.renderNextState();
+
+      if (MAPS[this.mapIndex].timeLimit > 0) {
+        this.timeRemaining -= this.tickRate;
+        this.view.printTime(this.timeRemaining);
+      }
     }    
   }
 }
-
-Game.STEP_MILLIS = 8;
 
 export default Game;
