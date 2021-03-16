@@ -27,8 +27,7 @@ class Man {
       }
     }   
 
-    this.pos = this.pos.plus(new Coord(this.dx, this.dy));
-    this.tilePos = absolutePosToMapPos(this.pos);
+    this.updatePos( this.pos.plus(new Coord(this.dx, this.dy)) );
 
     if (this.board.atFinish(this.tilePos)) {
       await new Promise(r => setTimeout(r, this.levelTickRate * 19));
@@ -37,6 +36,11 @@ class Man {
       await new Promise(r => setTimeout(r, this.levelTickRate * 19));
       this.dead = true;
     }
+  }
+
+  updatePos(coord) {
+    this.pos = coord;
+    this.tilePos = absolutePosToMapPos(this.pos);
   }
 
   moveDelta(initialDelta) {
