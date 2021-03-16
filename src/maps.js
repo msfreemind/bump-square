@@ -2,6 +2,7 @@ export const MAPS = {
   0: { 
     title: "Stage 1",
     subtitle: "Gettin' Yer Blocks Wet",
+    menQuota: 1,
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [5, 10]],
     end: [6, 10],
@@ -18,6 +19,7 @@ export const MAPS = {
   1: {
     title: "Stage 2",
     subtitle: "Up to the Belly Button",
+    menQuota: 1,
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13]],
     end: [4, 14],
@@ -34,6 +36,7 @@ export const MAPS = {
   2: {
     title: "Stage 3",
     subtitle: "Into the Deep End",
+    menQuota: 1,
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10]],
     end: [10, 10],
@@ -50,6 +53,7 @@ export const MAPS = {
   3: {
     title: "Stage 4",
     subtitle: "Putting It All Together",
+    menQuota: 1,
     start: [0, 10],
     floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
     end: [13, 14],
@@ -76,6 +80,7 @@ export const MAPS = {
   4: {
     title: "Stage 5",
     subtitle: "Getting Serious Now",
+    menQuota: 1,
     start: [1, 9],
     floor: [[2, 9], [3, 9], [4, 9], [5, 9], [6, 9], [6, 8], [6, 7], [9, 2], [10, 2], [11, 2], [12, 2],
             [17, 2], [18, 2], [19, 2], [20, 2], [21, 2], [20, 3], [20, 4], [20, 5], [17, 8], [17, 9], [17, 10], [17, 11],
@@ -139,6 +144,7 @@ export const MAPS = {
   5: {
     title: "Stage 6",
     subtitle: "Death Spiral",
+    menQuota: 2,
     start: [1, 18],
     floor: [[1, 17], [1, 16], [1, 15], [1, 14], [1, 9], [1, 8], [1, 7], [1, 6],
             [2, 2], [3, 2], [4, 2], [5, 2], [10, 2], [11, 2], [12, 2], [13, 2], [18, 2], [19, 2],
@@ -208,6 +214,7 @@ export const MAPS = {
   },
   6: {
     title: "Stage 7",
+    menQuota: 2,
     subtitle: "",
     start: [2, 2],
     floor: [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6],
@@ -253,6 +260,7 @@ export const MAPS = {
   7: {
     title: "Stage 8",
     subtitle: "Bump Fest",
+    menQuota: 2,
     start: [12, 1],
     floor: [[12, 3], [12, 4], [12, 5], [14, 5], [14, 6], [16, 6], [16, 7], [16, 8], [14, 8], [14, 9],
             [12, 9], [12, 10], [12, 11], [10, 11], [10, 12], [8, 12], [8, 13], [8, 14], [10, 14],
@@ -303,6 +311,7 @@ export const MAPS = {
   8: {
     title: "Stage 9",
     subtitle: "Mirror Blox",
+    menQuota: 1,
     start: [11, 9],
     floor: [[6, 9], [5, 9], [4, 9], [3, 9], [3, 7], [3, 6], [4, 6], [5, 6], [5, 4], [5, 3], [6, 3],
             [7, 3], [9, 3], [10, 3], [11, 3], [13, 3], [14, 3], [15, 3], [17, 3], [18, 3], [19, 3],
@@ -353,6 +362,7 @@ export const MAPS = {
   9: {
     title: "Stage 10",
     subtitle: "Key Jumble",
+    menQuota: 1,
     start: [3, 9],
     floor: [[4, 9], [5, 9], [6, 9], [8, 12], [9, 12], [10, 12], [11, 6], [10, 6], [9, 6], [9, 5],
             [9, 4], [9, 3], [11, 3], [12, 3], [13, 3], [14, 3], [19, 3], [19, 4], [19, 5], [18,5],

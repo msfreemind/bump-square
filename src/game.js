@@ -8,7 +8,8 @@ class Game {
     this.board = new Board(MAPS[0])
     this.view = new View(ctx, this.board);
 
-    this.intervalId = null;
+    this.stageIntervalId = null;
+    this.playerIntervalId = null;
     this.mapIndex = 0;    
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
@@ -38,9 +39,13 @@ class Game {
       case "Enter":
         if (!this.levelStarted) {
           this.levelStarted = true;
-          this.intervalId = window.setInterval(
+          this.stageIntervalId = window.setInterval(
             this.step.bind(this),
             Game.STEP_MILLIS
+          );
+          this.playerIntervalId = window.setInterval(
+            this.board.loadPlayer.bind(this.board),
+            5000
           );
         }
         
@@ -106,12 +111,15 @@ class Game {
 
       if (man.reachedFinish) {
         this.board.removeMan(idx);
+        this.board.addGoal();
         this.view.renderGoalFlash();
+      } else if (man.dead) {
+        this.board.removeMan(idx);
       }
     });
 
     if (this.board.men.length === 0) {
-      window.clearInterval(this.intervalId);      
+      window.clearInterval(this.stageIntervalId);      
       await new Promise(r => setTimeout(r, 450));
       this.loadNextMap();
     } else {

@@ -5,6 +5,7 @@ class Man {
   constructor(board, color) {
     this.color = color;
     this.reachedFinish = false;
+    this.dead = false;
 
     this.board = board;
     this.pos = board.startPos;
@@ -28,9 +29,12 @@ class Man {
     this.pos = this.pos.plus(new Coord(this.dx, this.dy));
     this.tilePos = absolutePosToMapPos(this.pos);
 
-    if (this.board.atFinish(this.pos)) {
+    if (this.board.atFinish(this.tilePos)) {
       await new Promise(r => setTimeout(r, 150));
       this.reachedFinish = true;
+    } else if (this.board.onDeathSquare(this.tilePos)) {
+      await new Promise(r => setTimeout(r, 150));
+      this.dead = true;
     }
   }
 

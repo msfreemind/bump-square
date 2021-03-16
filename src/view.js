@@ -64,6 +64,9 @@ class View {
     this.drawShuttleLines();
     this.drawBlockSlots();
 
+    // Draw death squares
+    this.board.getDeathSquares().forEach(deathSquare => this.drawTile(deathSquare, "black"));
+
     // Draw controllable blocks
     this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, "crimson", "A")); //orchid also works
     this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, "dodgerblue", "S"));

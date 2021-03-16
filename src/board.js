@@ -12,7 +12,19 @@ class Board {
     this.shuttlesMoved = false;    
 
     this.men = [];
-    this.men.push(new Man(this, "lime"));
+    this.menQuota = map.menQuota;
+    this.goalCount = 0;
+    this.loadPlayer();
+  }
+
+  loadPlayer() {
+    if (this.men.length < (this.menQuota - this.goalCount)) {
+      this.men.push(new Man(this, "lime"));
+    }    
+  }
+
+  addGoal() {
+    this.goalCount++;
   }
 
   getABlocks() {
@@ -25,6 +37,10 @@ class Board {
 
   getShuttles() {
     return Object.values(this.map.shuttles);
+  }
+
+  getDeathSquares() {
+    return Object.values(this.map.deathSquares);
   }
 
   pushBlockCollision(tileCoord) {
@@ -60,19 +76,27 @@ class Board {
       return true;
     } else if (this.pushBlockCollision(tileCoord)) {
       return false;
+    } else if (this.onDeathSquare(tileCoord)) {
+      return true;
     } else {
       return this.onFloor(tileCoord);
     }
   }
 
-  atFinish(coord) {
-    const tileCoord = absolutePosToMapPos(coord);
-
+  atFinish(tileCoord) {
     if (tilesMatch(this.map.end, tileCoord)) {
       return true;
     } else {
       return false;
     }
+  }
+
+  onDeathSquare(tileCoord) {
+    const death = this.getDeathSquares().some(tile => {
+      return tilesMatch(tile, tileCoord);
+    });
+
+    return death && !this.onFloor(tileCoord);
   }
 
   removeMan(idx) {

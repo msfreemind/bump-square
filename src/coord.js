@@ -17,4 +17,4 @@ class Coord {
   }
 }
 
-module.exports = Coord;
+export default Coord;
