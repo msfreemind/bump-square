@@ -128,18 +128,24 @@ class Board {
     block.pos[1] += block.movement[1] * actionType;
 
     // Filter for the men that are on tiles about to be occupied by push blocks
-    this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
-      bumpedMan.pos = bumpedMan.pos.plus(
-        new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType)
-      );
-
-      if (bumpedMan.dx === 0 && block.movement[0] !== 0) {
-        bumpedMan.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-        bumpedMan.dy = 0;
-      } else if (bumpedMan.dy === 0 && block.movement[1] !== 0) {
-        bumpedMan.dx = 0;
-        bumpedMan.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-      } 
+    this.men.forEach((man, idx) => {
+      if (tilesMatch(man.tilePos, block.pos)) {
+        man.pos = man.pos.plus(
+          new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType)
+        );
+  
+        if (!this.validPosition(man.pos, true)) {
+          this.removeMan(idx);
+        } else {
+          if (man.dx === 0 && block.movement[0] !== 0) {
+            man.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+            man.dy = 0;
+          } else if (man.dy === 0 && block.movement[1] !== 0) {
+            man.dx = 0;
+            man.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+          } 
+        }
+      }
     });
   }
 
