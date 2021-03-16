@@ -4,7 +4,7 @@ import { tilesMatch, absolutePosToMapPos } from './utils';
 
 class Board {
   constructor(map) {
-    this.map = map;
+    this.map = JSON.parse(JSON.stringify(map)); // Make a deep copy of map object
     this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
 
     this.aBlocksMoved = false;

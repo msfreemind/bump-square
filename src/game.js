@@ -123,9 +123,15 @@ class Game {
       }
     });
 
-    if (this.board.men.length === 0) {
-      window.clearInterval(this.stageIntervalId);      
-      await new Promise(r => setTimeout(r, 450));
+    if (this.board.men.length === 0 || (this.timeRemaining === 0 && MAPS[this.mapIndex].timeLimit > 0)) {
+      window.clearInterval(this.stageIntervalId);
+
+      if (this.board.goalCount === this.board.menQuota) {            
+        await new Promise(r => setTimeout(r, 450));
+      } else {
+        this.mapIndex -= 1;
+      }
+
       this.loadNextMap();
     } else {
       this.view.renderNextState();
