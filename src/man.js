@@ -6,6 +6,7 @@ class Man {
     this.color = color;
     this.reachedFinish = false;
     this.dead = false;
+    this.levelTickRate = board.map.tickRate;
 
     this.board = board;
     this.pos = board.startPos;
@@ -30,10 +31,10 @@ class Man {
     this.tilePos = absolutePosToMapPos(this.pos);
 
     if (this.board.atFinish(this.tilePos)) {
-      await new Promise(r => setTimeout(r, 150));
+      await new Promise(r => setTimeout(r, this.levelTickRate * 19));
       this.reachedFinish = true;
     } else if (this.board.onDeathSquare(this.tilePos)) {
-      await new Promise(r => setTimeout(r, 150));
+      await new Promise(r => setTimeout(r, this.levelTickRate * 19));
       this.dead = true;
     }
   }
