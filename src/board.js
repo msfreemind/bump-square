@@ -6,6 +6,7 @@ class Board {
   constructor(map) {
     this.map = JSON.parse(JSON.stringify(map)); // Make a deep copy of map object
     this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
+    this.jump = new Audio("../src/jump.wav");
 
     this.aBlocksMoved = false;
     this.dBlocksMoved = false;
@@ -129,7 +130,9 @@ class Board {
 
     // Filter for the men that are on tiles about to be occupied by push blocks
     this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
-      if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {
+      if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {      
+        this.jump.cloneNode().play();
+
         bumpedMan.updatePos( 
           bumpedMan.pos.plus(new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType))
         );
