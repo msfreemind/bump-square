@@ -20,6 +20,9 @@ class Game {
     this.shuttlesMoved = false;    
     this.levelStarted = false;
 
+    this.goalSound = new Audio("./audio/goal.wav");
+    this.goalSound.volume = 0.75;
+
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
 
@@ -118,6 +121,7 @@ class Game {
       if (man.reachedFinish) {
         this.board.removeMan(idx);
         this.board.addGoal();
+        this.goalSound.play();
         this.view.renderGoalFlash();
       } else if (man.dead) {
         window.clearInterval(this.playerIntervalId);
