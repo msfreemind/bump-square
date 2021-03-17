@@ -128,24 +128,22 @@ class Board {
     block.pos[1] += block.movement[1] * actionType;
 
     // Filter for the men that are on tiles about to be occupied by push blocks
-    this.men.forEach((man, idx) => {
-      if (tilesMatch(man.tilePos, block.pos)) {
-        if (!this.pushBlockCollision([man.tilePos[0] + (block.movement[0] * actionType), man.tilePos[1] + (block.movement[1] * actionType)])) {
-          man.updatePos( 
-            man.pos.plus(new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType))
-          );
-    
-          if (!this.validPosition(man.tilePos, false)) {
-            this.removeMan(idx);
-          } else {
-            if (man.dx === 0 && block.movement[0] !== 0) {
-              man.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-              man.dy = 0;
-            } else if (man.dy === 0 && block.movement[1] !== 0) {
-              man.dx = 0;
-              man.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-            } 
-          }
+    this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
+      if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {
+        bumpedMan.updatePos( 
+          bumpedMan.pos.plus(new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType))
+        );
+  
+        if (!this.validPosition(bumpedMan.tilePos, false)) {
+          bumpedMan.dead = true;
+        } else {
+          if (bumpedMan.dx === 0 && block.movement[0] !== 0) {
+            bumpedMan.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+            bumpedMan.dy = 0;
+          } else if (bumpedMan.dy === 0 && block.movement[1] !== 0) {
+            bumpedMan.dx = 0;
+            bumpedMan.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+          } 
         }
       }
     });
@@ -155,29 +153,35 @@ class Board {
     if (this.shuttlesMoved) {
       this.getShuttles().forEach(shuttle => {
         // Filter for the men that are on shuttle tiles
-        this.men.forEach((man, idx) => {
-          if (tilesMatch(man.tilePos, shuttle.pos)) {
-            for (let i = 1; i <= Math.abs(shuttle.movement[0]); i++) {
-              let sign = shuttle.movement[0] >= 0 ? -1 : 1;
-              if (this.pushBlockCollision([man.tilePos[0] + (i * sign), man.tilePos[1]])) {
-                man.updatePos( man.pos.plus(new Coord(-40 * i, 0)) );
-                this.removeMan(idx);
-              }
-            }
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle.pos)).forEach(shuttledMan => {
+          let posUpdated = false;
 
-            for (let i = 1; i <= Math.abs(shuttle.movement[1]); i++) {
-              let sign = shuttle.movement[1] >= 0 ? -1 : 1;
-              if (this.pushBlockCollision([man.tilePos[0], man.tilePos[1] + (i * sign)])) {
-                man.updatePos( man.pos.plus(new Coord(0, -40 * i)) );
-                this.removeMan(idx);
-              }
+          for (let i = 1; i <= Math.abs(shuttle.movement[0]); i++) {
+            let sign = shuttle.movement[0] >= 0 ? -1 : 1;
+            if (this.pushBlockCollision([shuttledMan.tilePos[0] + (i * sign), shuttledMan.tilePos[1]])) {
+              shuttledMan.updatePos( shuttledMan.pos.plus(new Coord(-40 * (i - 1), 0)) );
+              posUpdated = true;
+              shuttledMan.dead = true;
+              break;
             }
-
-            man.updatePos(
-              man.pos.plus(new Coord(-40 * shuttle.movement[0], -40 * shuttle.movement[1]))
-            );
           }
-        }); 
+
+          for (let i = 1; i <= Math.abs(shuttle.movement[1]); i++) {
+            let sign = shuttle.movement[1] >= 0 ? -1 : 1;
+            if (this.pushBlockCollision([shuttledMan.tilePos[0], shuttledMan.tilePos[1] + (i * sign)])) {
+              shuttledMan.updatePos( shuttledMan.pos.plus(new Coord(0, -40 * (i - 1))) );
+              posUpdated = true;
+              shuttledMan.dead = true;
+              break;
+            }
+          }
+
+          if (!posUpdated) {
+            shuttledMan.updatePos(
+              shuttledMan.pos.plus(new Coord(-40 * shuttle.movement[0], -40 * shuttle.movement[1]))
+            );
+          }          
+        });
 
         shuttle.pos[0] -= shuttle.movement[0];
         shuttle.pos[1] -= shuttle.movement[1];
@@ -185,26 +189,32 @@ class Board {
     } else {
       this.getShuttles().forEach(shuttle => {
         // Filter for the men that are on shuttle tiles
-        this.men.forEach((man, idx) => {
-          if (tilesMatch(man.tilePos, shuttle.pos)) {
+        this.men.filter(man => tilesMatch(man.tilePos, shuttle.pos)).forEach(shuttledMan => {
+          let posUpdated = false;
+        
+          for (let i = 1; i <= Math.abs(shuttle.movement[0]); i++) {
             let sign = shuttle.movement[0] >= 0 ? 1 : -1;
-            for (let i = 1; i <= Math.abs(shuttle.movement[0]); i++) {
-              if (this.pushBlockCollision([man.tilePos[0] + (i * sign), man.tilePos[1]])) {
-                man.updatePos( man.pos.plus(new Coord(40 * i, 0)) );
-                this.removeMan(idx);
-              }
+            if (this.pushBlockCollision([shuttledMan.tilePos[0] + (i * sign), shuttledMan.tilePos[1]])) {
+              shuttledMan.updatePos( shuttledMan.pos.plus(new Coord(40 * (i - 1), 0)) );
+              posUpdated = true;
+              shuttledMan.dead = true;
+              break;
             }
+          }
 
-            for (let i = 1; i <= Math.abs(shuttle.movement[1]); i++) {
-              let sign = shuttle.movement[1] >= 0 ? 1 : -1;
-              if (this.pushBlockCollision([man.tilePos[0], man.tilePos[1] + (i * sign)])) {
-                man.updatePos( man.pos.plus(new Coord(0, 40 * i)) );
-                this.removeMan(idx);
-              }
+          for (let i = 1; i <= Math.abs(shuttle.movement[1]); i++) {
+            let sign = shuttle.movement[1] >= 0 ? 1 : -1;
+            if (this.pushBlockCollision([shuttledMan.tilePos[0], shuttledMan.tilePos[1] + (i * sign)])) {
+              shuttledMan.updatePos( shuttledMan.pos.plus(new Coord(0, 40 * (i - 1))) );
+              posUpdated = true;
+              shuttledMan.dead = true;
+              break;
             }
+          }
 
-            man.updatePos(
-              man.pos.plus(new Coord(40 * shuttle.movement[0], 40 * shuttle.movement[1]))
+          if (!posUpdated) {
+            shuttledMan.updatePos(
+              shuttledMan.pos.plus(new Coord(40 * shuttle.movement[0], 40 * shuttle.movement[1]))
             );
           }
         });        
