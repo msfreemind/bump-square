@@ -37,16 +37,17 @@ class View {
 
   renderNextState() {
     this.renderMap(true);
+    this.board.men.forEach(man => this.drawBall(man.pos, man.color));
+  }
 
-    this.board.men.forEach(man => {
-      this.ctx.beginPath();
+  async drawBall(pos, color) {
+    this.ctx.beginPath();
 
-      this.ctx.arc(man.pos.i, man.pos.j, View.MAN_RADIUS, 0, Math.PI * 2);
-      this.ctx.fillStyle = man.color;
-      this.ctx.fill();
+    this.ctx.arc(pos.i, pos.j, View.MAN_RADIUS, 0, Math.PI * 2);
+    this.ctx.fillStyle = color;
+    this.ctx.fill();
 
-      this.ctx.closePath();
-    });
+    this.ctx.closePath();
   }
 
   renderMap(drawGameArea) {

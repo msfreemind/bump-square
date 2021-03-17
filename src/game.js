@@ -7,6 +7,7 @@ class Game {
     this.ctx = ctx;
     this.board = new Board(MAPS[0])
     this.view = new View(ctx, this.board);
+    this.deadMen = [];
 
     this.stageIntervalId = null;
     this.playerIntervalId = null;
@@ -119,11 +120,24 @@ class Game {
         this.board.addGoal();
         this.view.renderGoalFlash();
       } else if (man.dead) {
+        window.clearInterval(this.playerIntervalId);
+
+        this.deadMen.push(man);
+
+        setTimeout(() => {
+          this.deadMen.pop();
+          this.playerIntervalId = window.setInterval(
+            this.board.loadPlayer.bind(this.board),
+            5000
+          );
+        }, 1000);
+
         this.board.removeMan(idx);
       }
     });
 
-    if (this.board.men.length === 0 || (this.timeRemaining === 0 && MAPS[this.mapIndex].timeLimit > 0)) {
+    if ((this.board.men.length === 0 || (this.timeRemaining === 0 && MAPS[this.mapIndex].timeLimit > 0)) && this.deadMen.length === 0) {
+      window.clearInterval(this.playerIntervalId);
       window.clearInterval(this.stageIntervalId);
 
       if (this.board.goalCount === this.board.menQuota) {            
@@ -135,6 +149,7 @@ class Game {
       this.loadNextMap();
     } else {
       this.view.renderNextState();
+      this.deadMen.forEach(man => this.view.drawBall(man.pos, "red"));
 
       if (MAPS[this.mapIndex].timeLimit > 0) {
         this.timeRemaining -= this.tickRate;
