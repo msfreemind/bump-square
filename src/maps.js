@@ -223,23 +223,25 @@ export const MAPS = {
   },
   6: {
     title: "Stage 7",
-    subtitle: "",
-    menQuota: 1,    
+    subtitle: "Key Sequences",
+    menQuota: 1,
     timeLimit: 0,
     tickRate: 8,
-    start: [2, 2],
-    floor: [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6],
-            [13, 10], [12, 10], [11, 10], [10, 10], [9, 10], [8, 10], [8, 12], [8, 13], [8, 14],
-            [9, 14], [10, 14]],
-    end: [19, 12],
-    aBlocks: { 
+    start: [2, 9],
+    floor: [[3, 9]],
+    end: [22, 9],
+    aBlocks: {
       0: {
-        pos: [8, 14],
-        movement: [-1, 0]
+        pos: [5, 9],
+        movement: [0, -1]
       },
       1: {
-        pos: [19, 13],
-        movement: [1, 0]
+        pos: [11, 9],
+        movement: [0, -1]
+      },
+      2: {
+        pos: [17, 9],
+        movement: [0, -1]
       }
     },
     dBlocks: {
@@ -248,22 +250,38 @@ export const MAPS = {
         movement: [0, 1]
       },
       1: {
-        pos: [19, 15],
-        movement: [0, -1]
-      }
-    },
-    shuttles: { 
-      0: {
-        pos: [8, 2],
-        movement: [0, 3]
-      },
-      1: {
-        pos: [13, 6],
-        movement: [0, 3]
+        pos: [14, 9],
+        movement: [0, 1]
       },
       2: {
-        pos: [11, 14],
-        movement: [8, 0]
+        pos: [20, 9],
+        movement: [0, 1]
+      }
+    },
+    shuttles: {
+      0: {
+        pos: [4, 9],
+        movement: [2, 0]
+      },
+      1: {
+        pos: [9, 9],
+        movement: [-2, 0]
+      },
+      2: {
+        pos: [10, 9],
+        movement: [2, 0]
+      },
+      3: {
+        pos: [15, 9],
+        movement: [-2, 0]
+      },
+      4: {
+        pos: [16, 9],
+        movement: [2, 0]
+      },
+      5: {
+        pos: [21, 9],
+        movement: [-2, 0]
       }
     },
     deathSquares: {}
@@ -437,6 +455,53 @@ export const MAPS = {
       3: {
         pos: [15, 3],
         movement: [3, 0]
+      }
+    },
+    deathSquares: {}
+  },
+  10: {
+    title: "Stage 11",
+    subtitle: "",
+    menQuota: 1,    
+    timeLimit: 0,
+    tickRate: 8,
+    start: [2, 2],
+    floor: [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6],
+            [13, 10], [12, 10], [11, 10], [10, 10], [9, 10], [8, 10], [8, 12], [8, 13], [8, 14],
+            [9, 14], [10, 14]],
+    end: [19, 12],
+    aBlocks: { 
+      0: {
+        pos: [8, 14],
+        movement: [-1, 0]
+      },
+      1: {
+        pos: [19, 13],
+        movement: [1, 0]
+      }
+    },
+    dBlocks: {
+      0: {
+        pos: [8, 9],
+        movement: [0, 1]
+      },
+      1: {
+        pos: [19, 15],
+        movement: [0, -1]
+      }
+    },
+    shuttles: { 
+      0: {
+        pos: [8, 2],
+        movement: [0, 3]
+      },
+      1: {
+        pos: [13, 6],
+        movement: [0, 3]
+      },
+      2: {
+        pos: [11, 14],
+        movement: [8, 0]
       }
     },
     deathSquares: {}
