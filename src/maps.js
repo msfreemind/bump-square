@@ -223,6 +223,124 @@ export const MAPS = {
   },
   6: {
     title: "Stage 7",
+    subtitle: "Peek-a-Block",
+    menQuota: 1,    
+    timeLimit: 0,
+    tickRate: 8,
+    start: [4, 15],
+    floor: [[4, 14], [4, 13], [6, 13], [11, 8], [11, 6], [11, 5], [11, 4]],
+    end: [20, 4],
+    aBlocks: { 
+      0: {
+        pos: [4, 13],
+        movement: [-1, 0]
+      },
+      1: {
+        pos: [11, 8],
+        movement: [1, 0]
+      },
+      2: {
+        pos: [20, 4],
+        movement: [1, 0]
+      }
+    },
+    dBlocks: {
+      0: {
+        pos: [6, 14],
+        movement: [0, -1]
+      },
+      1: {
+        pos: [11, 9],
+        movement: [0, -1]
+      },
+      2: {
+        pos: [12, 4],
+        movement: [0, -1]
+      },
+      3: {
+        pos: [13, 4],
+        movement: [0, 1]
+      },
+      4: {
+        pos: [14, 4],
+        movement: [0, -1]
+      }
+    },
+    shuttles: { 
+      0: {
+        pos: [6, 8],
+        movement: [0, 3]
+      },
+      1: {
+        pos: [7, 8],
+        movement: [3, 0]
+      },
+      2: {
+        pos: [15, 4],
+        movement: [-3, 0]
+      },
+      3: {
+        pos: [16, 4],
+        movement: [3, 0]
+      }
+    },
+    deathSquares: {}
+  },
+  7: {
+    title: "Stage 8",
+    subtitle: "Bump Fest",
+    menQuota: 1,
+    timeLimit: 7000,
+    tickRate: 4,
+    start: [12, 1],
+    floor: [[12, 3], [12, 4], [12, 5], [14, 5], [14, 6], [16, 6], [16, 7], [16, 8], [14, 8], [14, 9],
+            [12, 9], [12, 10], [12, 11], [10, 11], [10, 12], [8, 12], [8, 13], [8, 14], [10, 14],
+            [10, 15], [12, 15], [12, 16], [12, 17]],
+    end: [12, 18],
+    aBlocks: {},
+    dBlocks: {
+      0: {
+        pos: [12, 0],
+        movement: [0, 1]
+      },
+      1: {
+        pos: [11, 5],
+        movement: [1, 0]
+      },
+      2: {
+        pos: [13, 6],
+        movement: [1, 0]
+      },
+      3: {
+        pos: [17, 8],
+        movement: [-1, 0]
+      },
+      4: {
+        pos: [15, 9],
+        movement: [-1, 0]
+      },
+      5: {
+        pos: [13, 11],
+        movement: [-1, 0]
+      },
+      6: {
+        pos: [11, 12],
+        movement: [-1, 0]
+      },
+      7: {
+        pos: [7, 14],
+        movement: [1, 0]
+      },
+      8: {
+        pos: [9, 15],
+        movement: [1, 0]
+      },
+    },
+    shuttles: {},
+    deathSquares: {}
+  },
+  8: {
+    title: "Stage 9",
     subtitle: "Key Sequences",
     menQuota: 1,
     timeLimit: 0,
@@ -286,61 +404,8 @@ export const MAPS = {
     },
     deathSquares: {}
   },
-  7: {
-    title: "Stage 8",
-    subtitle: "Bump Fest",
-    menQuota: 1,
-    timeLimit: 7000,
-    tickRate: 4,
-    start: [12, 1],
-    floor: [[12, 3], [12, 4], [12, 5], [14, 5], [14, 6], [16, 6], [16, 7], [16, 8], [14, 8], [14, 9],
-            [12, 9], [12, 10], [12, 11], [10, 11], [10, 12], [8, 12], [8, 13], [8, 14], [10, 14],
-            [10, 15], [12, 15], [12, 16], [12, 17]],
-    end: [12, 18],
-    aBlocks: {},
-    dBlocks: {
-      0: {
-        pos: [12, 0],
-        movement: [0, 1]
-      },
-      1: {
-        pos: [11, 5],
-        movement: [1, 0]
-      },
-      2: {
-        pos: [13, 6],
-        movement: [1, 0]
-      },
-      3: {
-        pos: [17, 8],
-        movement: [-1, 0]
-      },
-      4: {
-        pos: [15, 9],
-        movement: [-1, 0]
-      },
-      5: {
-        pos: [13, 11],
-        movement: [-1, 0]
-      },
-      6: {
-        pos: [11, 12],
-        movement: [-1, 0]
-      },
-      7: {
-        pos: [7, 14],
-        movement: [1, 0]
-      },
-      8: {
-        pos: [9, 15],
-        movement: [1, 0]
-      },
-    },
-    shuttles: {},
-    deathSquares: {}
-  },
-  8: {
-    title: "Stage 9",
+  9: {
+    title: "Stage 10",
     subtitle: "Mirror Blox",
     menQuota: 1,
     timeLimit: 8000,
@@ -392,8 +457,8 @@ export const MAPS = {
     },
     deathSquares: {}
   },
-  9: {
-    title: "Stage 10",
+  10: {
+    title: "Stage 11",
     subtitle: "Key Jumble",
     menQuota: 1,
     timeLimit: 0,
@@ -459,8 +524,8 @@ export const MAPS = {
     },
     deathSquares: {}
   },
-  10: {
-    title: "Stage 11",
+  11: {
+    title: "Stage 12",
     subtitle: "",
     menQuota: 1,    
     timeLimit: 0,
