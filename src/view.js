@@ -3,6 +3,9 @@ class View {
     this.ctx = ctx;
     this.board = board;
     this.origMap = JSON.parse(JSON.stringify(this.board.map)); // Make a deep copy of map object
+    
+    this.deathSquareImg = new Image();
+    this.deathSquareImg.src = "./death-square.svg";
   }
 
   renderMapStartScreen() {
@@ -66,7 +69,7 @@ class View {
     this.drawBlockSlots();
 
     // Draw death squares
-    this.board.getDeathSquares().forEach(deathSquare => this.drawTile(deathSquare, "black"));
+    this.board.getDeathSquares().forEach(deathSquare => this.drawDeathSquare(deathSquare, "black"));
 
     // Draw controllable blocks
     this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, "crimson", "A")); //orchid also works
@@ -134,6 +137,10 @@ class View {
     });
 
     this.ctx.globalAlpha = currGlobalAlpha;
+  }
+
+  drawDeathSquare(deathSquare) {
+    this.ctx.drawImage(this.deathSquareImg, 40 * deathSquare[0], 40 * deathSquare[1], 40, 40);
   }
 
   async renderGoalFlash() {
