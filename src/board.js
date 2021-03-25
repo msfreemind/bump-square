@@ -135,7 +135,7 @@ class Board {
     this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
       if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {      
         if (!playedSound) {
-          this.jumpSound.cloneNode().play();
+          // this.jumpSound.cloneNode().play();
           playedSound = true;
         }        
 
@@ -195,7 +195,7 @@ class Board {
         });
 
         if (!playedSound) {
-          this.shuttleSound.cloneNode().play();
+          // this.shuttleSound.cloneNode().play();
           playedSound = true;
         }        
 
@@ -236,7 +236,7 @@ class Board {
         });        
 
         if (!playedSound) {
-          this.shuttleSound.cloneNode().play();
+          // this.shuttleSound.cloneNode().play();
           playedSound = true;
         } 
 
