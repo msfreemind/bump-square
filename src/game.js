@@ -21,7 +21,7 @@ class Game {
     this.levelStarted = false;
 
     this.goalSound = new Audio("./audio/goal.wav");
-    this.goalSound.volume = 0.75;
+    this.goalSound.volume = 0.5;
 
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
