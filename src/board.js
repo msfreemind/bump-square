@@ -74,10 +74,10 @@ class Board {
       tileCoord = coord;
     }    
 
-    if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
-      return true;
-    } else if (this.pushBlockCollision(tileCoord)) {
+    if (this.pushBlockCollision(tileCoord)) {
       return false;
+    } else if (tilesMatch(this.map.start, tileCoord) || tilesMatch(this.map.end, tileCoord)) {
+      return true;
     } else if (this.onDeathSquare(tileCoord)) {
       return true;
     } else {
