@@ -1,7 +1,7 @@
 export const MAPS = {
   0: { 
     title: "Stage 1",
-    subtitle: "Gettin' Yer Blocks Wet",
+    subtitle: "Gettin' Yer Squares Wet",
     menQuota: 1,
     timeLimit: 0,
     tickRate: 8,
@@ -465,9 +465,8 @@ export const MAPS = {
     tickRate: 8,
     start: [3, 9],
     floor: [[4, 9], [5, 9], [6, 9], [8, 12], [9, 12], [10, 12], [11, 6], [10, 6], [9, 6], [9, 5],
-            [9, 4], [9, 3], [11, 3], [12, 3], [13, 3], [14, 3], [19, 3], [19, 4], [19, 5], [18,5],
-            [17, 5], [17, 6], [17, 7], [17, 8], [17, 9], [18, 9], [19, 9], [20, 9]],
-    end: [21, 9],
+            [9, 4], [9, 3], [21, 3]],
+    end: [21, 8],
     aBlocks: {
       0: {
         pos: [7, 12],
@@ -482,8 +481,16 @@ export const MAPS = {
         movement: [1, 0]
       },
       3: {
-        pos: [17, 6],
-        movement: [1, 0]
+        pos: [13, 3],
+        movement: [0, -1]
+      },
+      4: {
+        pos: [15, 3],
+        movement: [0, 1]
+      },
+      5: {
+        pos: [17, 3],
+        movement: [0, -1]
       }
     },
     dBlocks: {
@@ -502,6 +509,14 @@ export const MAPS = {
       3: {
         pos: [8, 3],
         movement: [1, 0]
+      },
+      4: {
+        pos: [22, 3],
+        movement: [-1, 0]
+      },
+      5: {
+        pos: [18, 8],
+        movement: [1, 0]
       }
     },
     shuttles: {
@@ -514,59 +529,16 @@ export const MAPS = {
         movement: [0, 3]
       },
       2: {
-        pos: [13, 6],
-        movement: [0, 3]
+        pos: [13, 9],
+        movement: [0, -3]
       },
       3: {
-        pos: [15, 3],
-        movement: [3, 0]
-      }
-    },
-    deathSquares: {}
-  },
-  11: {
-    title: "Stage 12",
-    subtitle: "",
-    menQuota: 1,    
-    timeLimit: 0,
-    tickRate: 8,
-    start: [2, 2],
-    floor: [[3, 2], [4, 2], [5, 2], [6, 2], [7, 2], [8, 6], [9, 6], [10, 6], [11, 6], [12, 6],
-            [13, 10], [12, 10], [11, 10], [10, 10], [9, 10], [8, 10], [8, 12], [8, 13], [8, 14],
-            [9, 14], [10, 14]],
-    end: [19, 12],
-    aBlocks: { 
-      0: {
-        pos: [8, 14],
-        movement: [-1, 0]
+        pos: [11, 3],
+        movement: [9, 0]
       },
-      1: {
-        pos: [19, 13],
-        movement: [1, 0]
-      }
-    },
-    dBlocks: {
-      0: {
-        pos: [8, 9],
-        movement: [0, 1]
-      },
-      1: {
-        pos: [19, 15],
-        movement: [0, -1]
-      }
-    },
-    shuttles: { 
-      0: {
-        pos: [8, 2],
-        movement: [0, 3]
-      },
-      1: {
-        pos: [13, 6],
-        movement: [0, 3]
-      },
-      2: {
-        pos: [11, 14],
-        movement: [8, 0]
+      4: {
+        pos: [19, 3],
+        movement: [0, 5]
       }
     },
     deathSquares: {}
