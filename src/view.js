@@ -83,9 +83,11 @@ class View {
   }
 
   printTime(time) {
-    this.ctx.font = '400 26px Roboto';
-    this.ctx.fillStyle = "black";
-    this.ctx.fillText(Math.floor(time/1000), 400, 700);
+    const { timerPos } = this.origMap;
+
+    this.ctx.font = '700 26px Roboto';
+    this.ctx.fillStyle = "red";
+    this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0], timerPos[1]);
   }
 
   drawTile(tile, color, letter) {
