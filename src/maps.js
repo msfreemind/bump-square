@@ -489,5 +489,58 @@ export const MAPS = {
       }
     },
     deathSquares: {}
+  },
+  10: {
+    title: "Stage 11",
+    subtitle: "Bump Fest",
+    menQuota: 1,
+    timeLimit: 7000,
+    tickRate: 4,
+    start: [12, 1],
+    floor: [[12, 3], [12, 4], [12, 5], [14, 5], [14, 6], [16, 6], [16, 7], [16, 8], [14, 8], [14, 9],
+            [12, 9], [12, 10], [12, 11], [10, 11], [10, 12], [8, 12], [8, 13], [8, 14], [10, 14],
+            [10, 15], [12, 15], [12, 16], [12, 17]],
+    end: [12, 18],
+    aBlocks: {},
+    dBlocks: {
+      0: {
+        pos: [12, 0],
+        movement: [0, 1]
+      },
+      1: {
+        pos: [11, 5],
+        movement: [1, 0]
+      },
+      2: {
+        pos: [13, 6],
+        movement: [1, 0]
+      },
+      3: {
+        pos: [17, 8],
+        movement: [-1, 0]
+      },
+      4: {
+        pos: [15, 9],
+        movement: [-1, 0]
+      },
+      5: {
+        pos: [13, 11],
+        movement: [-1, 0]
+      },
+      6: {
+        pos: [11, 12],
+        movement: [-1, 0]
+      },
+      7: {
+        pos: [7, 14],
+        movement: [1, 0]
+      },
+      8: {
+        pos: [9, 15],
+        movement: [1, 0]
+      },
+    },
+    shuttles: {},
+    deathSquares: {}
   }
 }
