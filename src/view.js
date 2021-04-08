@@ -11,6 +11,11 @@ class View {
   renderMapStartScreen() {
     this.drawGameArea();
 
+    // Render map preview
+    this.ctx.globalAlpha = 0.15;
+    this.renderMap(false);
+    this.ctx.globalAlpha = 1.0;
+
     // Draw stage info
     this.ctx.font = "700 48px Roboto";
     this.ctx.textAlign = "center";
@@ -31,11 +36,6 @@ class View {
     this.ctx.font = '700 30px Roboto';
     this.ctx.fillStyle = "crimson";
     this.ctx.fillText("Hit Enter", 500, 665);
-
-    // Render map preview
-    this.ctx.globalAlpha = 0.4;
-    this.renderMap(false);
-    this.ctx.globalAlpha = 1.0;
   }
 
   renderNextState() {
