@@ -6,8 +6,6 @@ class Board {
   constructor(map) {
     this.map = JSON.parse(JSON.stringify(map)); // Make a deep copy of map object
     this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
-    this.jumpSound = new Audio("./audio/jump.wav");
-    this.shuttleSound = new Audio("./audio/shuttle.wav");
 
     this.aBlocksMoved = false;
     this.dBlocksMoved = false;
