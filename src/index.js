@@ -9,6 +9,10 @@ $(function () {
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
+
+    $(document).ready(function () {
+      setTimeout(function() { window.scrollTo(0, 1); }, 1);
+    });
   }
 
   document.addEventListener('touchstart', touchstart);

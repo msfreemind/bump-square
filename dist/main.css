@@ -12,9 +12,13 @@ body {
 }
 
 h1 {
-  font-size: 72px;
+  font-size: 50px;
   text-align: center;
-  padding: 20px 0;
+  padding: 40px;
+}
+
+.portrait-msg {
+  display: none;
 }
 
 canvas {
@@ -33,7 +37,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   position: absolute;
-  left: -94px;
+  left: -50px;
   top: 50%;
   transform: translate(-50%, -50%);
   justify-content: center;
@@ -44,7 +48,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   position: absolute;
-  right: -94px;
+  right: -50px;
   top: 50%;
   transform: translate(50%, -50%);
   justify-content: center;
@@ -57,8 +61,9 @@ canvas {
   border: 2px solid black;
   text-align: center;
   margin: 20px 0;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
+  font-size: 26px;
   color: white;
 }
 
@@ -75,19 +80,18 @@ canvas {
 }
 
 @media all and (max-device-width: 535px) and (orientation:portrait) {
-  html {
-    transform: rotate(-90deg);
-    transform-origin: left top;
-    width: 100vh;
-    height: 100vw;
-    position: absolute;
-    top: 100%;
-    left: 0;
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
-  canvas {
-    height: 100vw;
-    margin: 0;
+  .portrait-msg {
+    display: block;
+  }
+
+  .main-container {
+    display: none;
   }
 }
 
