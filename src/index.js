@@ -11,6 +11,9 @@ $(function () {
     $('.softkey-container-2').css("display", "flex");
   }
 
+  document.addEventListener('touchstart', touchstart);
+  document.addEventListener('touchmove', touchmove);
+
   $('.softkey-a').on("touchstart", simulateAPress);
   $('.softkey-a').on("touchend", simulateARelease);
   $('.softkey-s').on("touchstart", simulateSPress);
@@ -20,6 +23,14 @@ $(function () {
 
   new Game(ctx);
 });
+
+function touchstart(e) {
+  e.preventDefault();
+}
+
+function touchmove(e) {
+  e.preventDefault();
+}
 
 function simulateAPress() {
   const evt = new KeyboardEvent('keydown', { 'code': 'KeyA' });
