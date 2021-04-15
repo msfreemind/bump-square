@@ -10,6 +10,7 @@ body {
   -webkit-text-size-adjust: none;
   user-select: none;
   position: relative;
+  width: 100%;
 }
 
 h1 {
