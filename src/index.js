@@ -4,6 +4,8 @@ $(function () {
   const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
 
+  window.scrollTo(0,1);
+
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
