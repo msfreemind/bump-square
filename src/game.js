@@ -15,7 +15,7 @@ class Game {
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
-    $(window).on("click", this.startLevel.bind(this));
+    $('body').on("touchstart", this.startLevel.bind(this));
 
     this.aBlocksMoved = false;
     this.dBlocksMoved = false;
