@@ -30,13 +30,13 @@ h1 {
 
 canvas {
   max-height: 100vh;
-  max-height: fill-available;
+  max-height: calc(var(--vh, 1vh) * 100);
 }
 
 .softkey-container-1 {
   display: none;
   height: 100vh;
-  height: fill-available;
+  height: calc(var(--vh, 1vh) * 100);
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -48,7 +48,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   height: 100vh;
-  height: fill-available;
+  height: calc(var(--vh, 1vh) * 100);
   justify-content: center;
   flex-grow: 1;
 }
