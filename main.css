@@ -1,4 +1,4 @@
-html {
+html, body {
   overflow: hidden;
 }
 
@@ -9,6 +9,7 @@ body {
   -webkit-user-select: none;
   -webkit-text-size-adjust: none;
   user-select: none;
+  position: relative;
 }
 
 h1 {
