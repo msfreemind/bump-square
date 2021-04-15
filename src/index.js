@@ -7,16 +7,6 @@ $(function () {
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
-
-    if (screen.width < 1000) {
-      if (screen.height >= (screen.width / 0.8) + 100) {
-        screen.orientation.lock('landscape');
-      } else {
-        screen.orientation.lock('portrait');
-      }
-    } else {
-      screen.orientation.lock('portrait');
-    }
   }
 
   $('.softkey-a').on("touchstart", simulateAPress);
