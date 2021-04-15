@@ -18,17 +18,24 @@
     <meta property="og:description" content="2D Canvas game inspired by HaKox" />
     <meta name="author" content="Mark Swan" />
 
-    <script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
     <script>
-      let fontsLoaded = false;
+      var fontsLoaded = false;
 
-      WebFont.load({
-        google: {
-          families: ['Roboto']
-        }
-      });
+      WebFontConfig = {
+        google: { families: [ 'Roboto' ] },
+        active: function() { fontsLoaded = true },
+        inactive: function() { fontsLoaded = -1 }
+      };
 
-      WebFontConfig = { active: () => fontsLoaded = true };
+      (function() {
+          var wf = document.createElement('script');
+          wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+            '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+          wf.type = 'text/javascript';
+          wf.async = 'true';
+          var s = document.getElementsByTagName('script')[0];
+          s.parentNode.insertBefore(wf, s);
+        })();
     </script>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

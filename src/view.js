@@ -16,7 +16,7 @@ class View {
     this.renderMap(false);
     this.ctx.globalAlpha = 1.0;
 
-    if (!fontsLoaded) await new Promise(r => setTimeout(r, 1000));
+    if (!fontsLoaded) await new Promise(r => setTimeout(r, 250));
 
     // Draw stage info
     this.ctx.font = "700 48px Roboto";
