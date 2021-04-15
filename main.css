@@ -70,15 +70,20 @@ canvas {
 }
 
 @media all and (max-device-width: 535px) and (orientation:portrait) {
-  body {
-    -webkit-transform: rotate(90deg);
-    transform: rotate(90deg);
-    width: 100%;
-    height: 100%;
+  html {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    height: 100vw;
     overflow: hidden;
     position: absolute;
-    top: 0;
+    top: 100%;
     left: 0;
+  }
+
+  canvas {
+    height: 100vw;
+    margin: 0;
   }
 }
 
