@@ -35,7 +35,7 @@ class View {
 
     this.ctx.font = '700 30px Roboto';
     this.ctx.fillStyle = "crimson";
-    this.ctx.fillText("Hit Enter", 500, 665);
+    this.ctx.fillText("Touch or Hit Enter", 500, 665);
   }
 
   renderNextState() {

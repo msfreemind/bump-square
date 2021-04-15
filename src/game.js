@@ -15,6 +15,8 @@ class Game {
 
     $(window).on("keydown", this.handleKeyDownEvent.bind(this));
     $(window).on("keyup", this.handleKeyUpEvent.bind(this));
+    $(window).on("click", this.startLevel.bind(this));
+
     this.aBlocksMoved = false;
     this.dBlocksMoved = false;
     this.shuttlesMoved = false;    
@@ -46,18 +48,7 @@ class Game {
   handleKeyDownEvent(event) {
     switch (event.code) {
       case "Enter":
-        if (!this.levelStarted) {
-          this.levelStarted = true;
-          this.stageIntervalId = window.setInterval(
-            this.step.bind(this),
-            this.tickRate
-          );
-          this.playerIntervalId = window.setInterval(
-            this.board.loadPlayer.bind(this.board),
-            5000
-          );
-        }
-        
+        this.startLevel();        
         break;
 
       case "KeyA":
@@ -111,6 +102,20 @@ class Game {
 
       default:
         break;
+    }
+  }
+
+  startLevel() {
+    if (!this.levelStarted) {
+      this.levelStarted = true;
+      this.stageIntervalId = window.setInterval(
+        this.step.bind(this),
+        this.tickRate
+      );
+      this.playerIntervalId = window.setInterval(
+        this.board.loadPlayer.bind(this.board),
+        5000
+      );
     }
   }
 
