@@ -23,37 +23,31 @@ h1 {
   display: none;
 }
 
-canvas {
-  margin: 20px auto;
-  display: block;
+.main-container {
+  display: flex;
+  justify-content: center;
 }
 
-.main-container {
-  position: relative;
-  width: min-content;
-  margin: 0 auto;
+canvas {
+  max-height: 100vh;
 }
 
 .softkey-container-1 {
   display: none;
+  height: 100vh;
   flex-direction: column;
   align-items: center;
-  position: absolute;
-  left: -50px;
-  top: 50%;
-  transform: translate(-50%, -50%);
   justify-content: center;
+  flex-grow: 1;
 }
 
 .softkey-container-2 {
   display: none;
   flex-direction: column;
   align-items: center;
-  position: absolute;
-  right: -50px;
-  top: 50%;
-  transform: translate(50%, -50%);
+  height: 100vh;
   justify-content: center;
+  flex-grow: 1;
 }
 
 .softkey-a, .softkey-s, .softkey-d {
@@ -65,7 +59,7 @@ canvas {
   margin: 20px 0;
   width: 60px;
   height: 60px;
-  font-size: 26px;
+  font-size: 30px;
   color: white;
 }
 
@@ -81,7 +75,7 @@ canvas {
   background-color: #FFAF00;
 }
 
-@media all and (max-device-width: 535px) and (orientation:portrait) {
+@media all and (max-device-width: 535px) and (orientation: portrait) {
   body {
     display: flex;
     justify-content: center;
@@ -125,9 +119,8 @@ canvas {
   }
 }
 
-@media all and (orientation: landscape) and (max-width: 1000px) {
+@media all and (min-width: 1000px) {
   canvas {
-    height: 100%;
-    margin: 0 auto;
+    margin-top: 20px;
   }
 }
