@@ -8,13 +8,15 @@ class View {
     this.deathSquareImg.src = "./death-square.svg";
   }
 
-  renderMapStartScreen() {
+  async renderMapStartScreen() {
     this.drawGameArea();
 
     // Render map preview
     this.ctx.globalAlpha = 0.15;
     this.renderMap(false);
     this.ctx.globalAlpha = 1.0;
+
+    if (!fontsLoaded) await new Promise(r => setTimeout(r, 1000));
 
     // Draw stage info
     this.ctx.font = "700 48px Roboto";
