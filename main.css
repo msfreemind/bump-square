@@ -66,7 +66,20 @@ canvas {
   background-color: #FFAF00;
 }
 
-@media (orientation: portrait) {
+@media all and (max-device-width: 535px) and (orientation:portrait) {
+  body {
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+}
+
+@media all and (min-device-width: 535px) and (orientation: portrait) {
   .softkey-a, .softkey-s, .softkey-d {
     width: 100px;
     height: 100px;
@@ -81,7 +94,7 @@ canvas {
     width: min-content;
     left: 50px;
     top: auto;
-    bottom: 0;
+    bottom: 30px;
     transform: none;
   }
 
@@ -89,7 +102,7 @@ canvas {
     width: min-content;
     right: 50px;
     top: auto;
-    bottom: 0;
+    bottom: 30px;
     transform: none;
   }
 }
