@@ -9,6 +9,18 @@ $(function () {
   // Then we set the value in the --vh custom property to the root of the document
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 
+  window.onorientationchange = function() { 
+    const  orientation = window.orientation; 
+
+    switch(orientation) { 
+      case 0:
+      case 90:
+      case -90: 
+        window.location.reload(); 
+        break; 
+    } 
+  };
+
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
