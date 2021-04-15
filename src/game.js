@@ -22,7 +22,7 @@ class Game {
     this.shuttlesMoved = false;    
     this.levelStarted = false;
 
-    this.goalSound = new Audio("./audio/goal.wav");
+    this.goalSound = new Audio();
     this.goalSound.volume = 0.5;
 
     this.timeRemaining = MAPS[0].timeLimit;
@@ -106,6 +106,8 @@ class Game {
   }
 
   startLevel() {
+    this.goalSound.play();
+    
     if (!this.levelStarted) {
       this.levelStarted = true;
       this.stageIntervalId = window.setInterval(
@@ -126,7 +128,10 @@ class Game {
       if (man.reachedFinish) {
         this.board.removeMan(idx);
         this.board.addGoal();
+
+        this.goalSound.src = "./audio/goal.wav";
         this.goalSound.play();
+        
         this.view.renderGoalFlash();
       } else if (man.dead) {
         window.clearInterval(this.playerIntervalId);
