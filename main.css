@@ -14,9 +14,9 @@ body {
 }
 
 h1 {
-  font-size: 50px;
+  font-size: 24px;
   text-align: center;
-  padding: 40px;
+  padding: 20px;
 }
 
 .portrait-msg {
@@ -30,11 +30,13 @@ h1 {
 
 canvas {
   max-height: 100vh;
+  max-height: fill-available;
 }
 
 .softkey-container-1 {
   display: none;
   height: 100vh;
+  height: fill-available;
   flex-direction: column;
   align-items: center;
   justify-content: center;
@@ -46,6 +48,7 @@ canvas {
   flex-direction: column;
   align-items: center;
   height: 100vh;
+  height: fill-available;
   justify-content: center;
   flex-grow: 1;
 }
@@ -93,33 +96,32 @@ canvas {
 
 @media all and (min-device-width: 535px) and (orientation: portrait) {
   .softkey-a, .softkey-s, .softkey-d {
-    width: 100px;
-    height: 100px;
-    font-size: 40px;
+    width: 120px;
+    height: 120px;
+    font-size: 50px;
+    margin-bottom: 20px;
   }
 
   .main-container {
-    position: unset;
+    flex-direction: column;
+    height: 100%;
   }
 
   .softkey-container-1 {
-    width: min-content;
-    left: 50px;
-    top: auto;
-    bottom: 30px;
-    transform: none;
+    visibility: hidden;
+    position: absolute;
   }
 
   .softkey-container-2 {
-    width: min-content;
-    right: 50px;
-    top: auto;
-    bottom: 30px;
-    transform: none;
+    margin-top: auto;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: flex-end;
+    flex: 1 0;
   }
 }
 
-@media all and (min-width: 1000px) {
+@media all and (min-width: 1025px) {
   canvas {
     margin-top: 20px;
   }
