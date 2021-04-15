@@ -4,19 +4,15 @@ $(function () {
   const canvas = document.getElementById("myCanvas");
   const ctx = canvas.getContext("2d");
 
-  setTimeout(function() { window.scrollTo(0, 1); }, 500)
-
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
-
-    $(document).ready(function () {
-      setTimeout(function() { window.scrollTo(0, 1); }, 1);
-    });
   }
 
-  document.addEventListener('touchstart', touchstart);
-  document.addEventListener('touchmove', touchmove);
+  const userAgent = navigator.userAgent.toLowerCase();
+  const isTablet = /(ipad|tablet|(android(?!.*mobile))|(windows(?!.*phone)(.*touch))|kindle|playbook|silk|(puffin(?!.*(IP|AP|WP))))/.test(userAgent);
+
+  if (isTablet) screen.orientation.lock("portrait-primary");
 
   $('.softkey-a').on("touchstart", simulateAPress);
   $('.softkey-a').on("touchend", simulateARelease);
@@ -27,14 +23,6 @@ $(function () {
 
   new Game(ctx);
 });
-
-function touchstart(e) {
-  e.preventDefault();
-}
-
-function touchmove(e) {
-  e.preventDefault();
-}
 
 function simulateAPress(e) {
   e.preventDefault();
