@@ -32,7 +32,9 @@ function touchmove(e) {
   e.preventDefault();
 }
 
-function simulateAPress() {
+function simulateAPress(e) {
+  e.preventDefault();
+
   const evt = new KeyboardEvent('keydown', { 'code': 'KeyA' });
   window.dispatchEvent(evt);
 }
@@ -42,7 +44,9 @@ function simulateARelease() {
   window.dispatchEvent(evt);
 }
 
-function simulateSPress() {
+function simulateSPress(e) {
+  e.preventDefault();
+
   const evt = new KeyboardEvent('keydown', { 'code': 'KeyS' });
   window.dispatchEvent(evt);
 }
@@ -52,7 +56,9 @@ function simulateSRelease() {
   window.dispatchEvent(evt);
 }
 
-function simulateDPress() {
+function simulateDPress(e) {
+  e.preventDefault();
+
   const evt = new KeyboardEvent('keydown', { 'code': 'KeyD' });
   window.dispatchEvent(evt);
 }

@@ -7,6 +7,7 @@ body {
   font-weight: 700;
   -webkit-touch-callout: none;
   -webkit-user-select: none;
+  -webkit-text-size-adjust: none;
   user-select: none;
 }
 
