@@ -32,17 +32,21 @@ class Game {
   }
 
   loadNextMap() {
-    this.aBlocksMoved = false;
-    this.dBlocksMoved = false;
-    this.shuttlesMoved = false;    
-    this.levelStarted = false;
+    if (Object.values(MAPS).length > this.mapIndex + 1) {    
+      this.aBlocksMoved = false;
+      this.dBlocksMoved = false;
+      this.shuttlesMoved = false;    
+      this.levelStarted = false;
 
-    this.board = new Board(MAPS[++this.mapIndex]);
-    this.view = new View(this.ctx, this.board);
-    this.timeRemaining = MAPS[this.mapIndex].timeLimit;
-    this.tickRate = MAPS[this.mapIndex].tickRate;
+      this.board = new Board(MAPS[++this.mapIndex]);
+      this.view = new View(this.ctx, this.board);
+      this.timeRemaining = MAPS[this.mapIndex].timeLimit;
+      this.tickRate = MAPS[this.mapIndex].tickRate;
 
-    this.view.renderMapStartScreen();  
+      this.view.renderMapStartScreen();
+    } else {
+      this.view.printWinScreen(this.goalSound);
+    }
   }
 
   handleKeyDownEvent(event) {

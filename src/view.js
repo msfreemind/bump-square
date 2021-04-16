@@ -6,6 +6,8 @@ class View {
     
     this.deathSquareImg = new Image();
     this.deathSquareImg.src = "./death-square.svg";
+
+    this.loop = this.loop.bind(this);
   }
 
   async renderMapStartScreen() {
@@ -45,10 +47,10 @@ class View {
     this.board.men.forEach(man => this.drawBall(man.pos, man.color));
   }
 
-  async drawBall(pos, color) {
+  drawBall(pos, color, radius) {
     this.ctx.beginPath();
 
-    this.ctx.arc(pos.i, pos.j, View.MAN_RADIUS, 0, Math.PI * 2);
+    this.ctx.arc(pos.i, pos.j, radius || View.MAN_RADIUS, 0, Math.PI * 2);
     this.ctx.fillStyle = color;
     this.ctx.fill();
 
@@ -155,7 +157,95 @@ class View {
       await new Promise(r => setTimeout(r, 48));
     }
   }
+
+  async printWinScreen(goalSound) {
+    await new Promise(r => setTimeout(r, 100));
+
+    for (let i = 0; i < 3; i++) {     
+      goalSound.cloneNode().play();
+
+      for (let i = 0; i < 3; i++) {
+        this.ctx.fillStyle = "magenta"; 
+        this.ctx.fillRect(0, 0, 1000, 800);
+        await new Promise(r => setTimeout(r, 48));
+        this.ctx.fillStyle = "black"; 
+        this.ctx.fillRect(0, 0, 1000, 800);
+        await new Promise(r => setTimeout(r, 48));
+      }
+
+      if (i < 2) await new Promise(r => setTimeout(r, 200));
+    }
+
+    this.loop();
+  }
+
+  printText(size, color, x, y) {
+    this.ctx.font = `700 ${size}px Roboto`;
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.fillStyle = color;
+    this.ctx.fillText("You Win!!", x, y);
+  }
+
+  drawWinText() {
+    this.printText(50, "magenta", 500, 265);
+    this.printText(50, "magenta", 685, 160);
+    this.printText(50, "magenta", 870, 55);
+    this.printText(50, "magenta", 315, 160);
+    this.printText(50, "magenta", 130, 55);
+    this.printText(50, "magenta", 870, 265);
+    this.printText(50, "magenta", 130, 265);
+    this.printText(50, "magenta", 500, 55);
+
+    this.printText(50, "magenta", 500, 530);
+    this.printText(50, "magenta", 685, 635);
+    this.printText(50, "magenta", 870, 740);
+    this.printText(50, "magenta", 315, 635);
+    this.printText(50, "magenta", 130, 740);
+    this.printText(50, "magenta", 130, 530);
+    this.printText(50, "magenta", 870, 530);
+    this.printText(50, "magenta", 500, 740);
+
+    this.ctx.globalAlpha = 1 - this.ctx.globalAlpha;
+
+    this.drawBall({ i: 685, j: 260  }, "lime", 8);
+    this.drawBall({ i: 315, j: 260  }, "lime", 8);
+    this.drawBall({ i: 870, j: 155  }, "lime", 8);
+    this.drawBall({ i: 500, j: 155  }, "lime", 8);
+    this.drawBall({ i: 135, j: 155  }, "lime", 8);
+    this.drawBall({ i: 315, j: 50  }, "lime", 8);
+    this.drawBall({ i: 685, j: 50  }, "lime", 8);
+
+    this.drawBall({ i: 685, j: 525  }, "lime", 8);
+    this.drawBall({ i: 315, j: 525  }, "lime", 8);
+    this.drawBall({ i: 870, j: 630  }, "lime", 8);
+    this.drawBall({ i: 500, j: 630  }, "lime", 8);
+    this.drawBall({ i: 135, j: 630  }, "lime", 8);
+    this.drawBall({ i: 315, j: 735  }, "lime", 8);
+    this.drawBall({ i: 685, j: 735  }, "lime", 8);
+  }
+
+  loop() {
+    let alpha = 0;   /// current alpha value
+    let delta = 0.05; /// delta = speed
+
+    setInterval(() => {
+      alpha += delta;
+      if (alpha <= 0 || alpha >= 1) delta = -delta;
+      if (alpha < 0) alpha = 0;
+
+      this.ctx.fillStyle = "black"; 
+      this.ctx.fillRect(0, 0, 1000, 800);
+      this.printText(150, "white", 500, 400);
+
+      this.ctx.globalAlpha = alpha;
+      this.drawWinText();
+      this.ctx.globalAlpha = 1.0;
+    }, 90);
+  }
 }
+
+
 
 View.MAN_RADIUS = 5;
 
