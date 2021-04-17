@@ -31,7 +31,7 @@ class Game {
     this.view.renderMapStartScreen();
   }
 
-  loadNextMap() {
+  loadNextMap(restart) {
     if (Object.values(MAPS).length > this.mapIndex + 1) {    
       this.aBlocksMoved = false;
       this.dBlocksMoved = false;
@@ -43,7 +43,8 @@ class Game {
       this.timeRemaining = MAPS[this.mapIndex].timeLimit;
       this.tickRate = MAPS[this.mapIndex].tickRate;
 
-      this.view.renderMapStartScreen();
+      if (restart) this.startLevel();
+      else this.view.renderMapStartScreen();
     } else {
       this.view.printWinScreen(this.goalSound);
     }
@@ -53,6 +54,15 @@ class Game {
     switch (event.code) {
       case "Enter":
         this.startLevel();        
+        break;
+
+      case "KeyR":
+        if (this.levelStarted) {
+          this.mapIndex -= 1;
+          window.clearInterval(this.playerIntervalId);
+          window.clearInterval(this.stageIntervalId);
+          this.loadNextMap(true);
+        }
         break;
 
       case "KeyA":

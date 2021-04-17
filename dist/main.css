@@ -19,6 +19,11 @@ h1 {
   padding: 20px;
 }
 
+h2 {
+  font-size: 24px;
+  padding-bottom: 10px;
+}
+
 .portrait-msg {
   display: none;
 }
@@ -78,6 +83,10 @@ canvas {
   background-color: #FFAF00;
 }
 
+.controls {
+  display: none;
+}
+
 @media all and (max-device-width: 535px) and (orientation: portrait) {
   body {
     display: flex;
@@ -124,5 +133,25 @@ canvas {
 @media all and (min-width: 1025px) {
   canvas {
     margin-top: 20px;
+  }
+
+  .controls {
+    display: flex;
+    flex-direction: column;
+    width: max-content;
+    align-items: center;
+    margin: 0 auto;
+    border: 2px solid black;
+    padding: 10px 20px;
+    background-color: grey;
+    color: white;
+    position: absolute;
+    top: 5px;
+    left: 5px;
+  }
+
+  .controls > ul {
+    font-size: 18px;
+    font-weight: 300;
   }
 }
