@@ -16,25 +16,34 @@ The player can only control certain marked squares by pressing and releasing the
 The bump functionality is achieved through `keydown` and `keyup` listener events that update the squares' positions on the board and, upon collision with the ball, bump the ball to a new position while also modifying its velocity vector:
 
 ```javascript
-// Check for collision with ball
-if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {
-  // Update the ball's position
-  bumpedMan.updatePos( 
-    bumpedMan.pos.plus(new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType))
-  );
+movePushBlock(block, actionType) {
+  // Update the push block's position
+  block.pos[0] += block.movement[0] * actionType;
+  block.pos[1] += block.movement[1] * actionType;
 
-  if (!this.validPosition(bumpedMan.tilePos, false)) {
-    // Remove the ball if it goes out of bounds
-    bumpedMan.dead = true;
-  } else {
-    // Update the ball's velocity
-    if (bumpedMan.dx === 0 && block.movement[0] !== 0) {
-      bumpedMan.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-      bumpedMan.dy = 0;
-    } else if (bumpedMan.dy === 0 && block.movement[1] !== 0) {
-      bumpedMan.dx = 0;
-      bumpedMan.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
-    } 
-  }
+  // Filter for the balls that are on tiles about to be occupied by push blocks
+  this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
+    // Check that another push block isn't blocking the bump path
+    if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {
+      // Update the ball's position
+      bumpedMan.updatePos( 
+        bumpedMan.pos.plus(new Coord(block.movement[0] * 80 * actionType, block.movement[1] * 80 * actionType))
+      );
+
+      if (!this.validPosition(bumpedMan.tilePos, false)) {
+        // Remove the ball if its new position is out-of-bounds
+        bumpedMan.dead = true;
+      } else {
+        // Update the ball's velocity
+        if (bumpedMan.dx === 0 && block.movement[0] !== 0) {
+          bumpedMan.dx = block.movement[0] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+          bumpedMan.dy = 0;
+        } else if (bumpedMan.dy === 0 && block.movement[1] !== 0) {
+          bumpedMan.dx = 0;
+          bumpedMan.dy = block.movement[1] > 0 ? Man.DEFAULT_SPEED : -Man.DEFAULT_SPEED;
+        } 
+      }
+    }
+  });
 }
 ```
