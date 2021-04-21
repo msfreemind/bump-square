@@ -50,7 +50,7 @@ movePushBlock(block, actionType) {
 
 ## Game Rendering
 
-The ball and game tiles are rendered to the Canvas every 4 or 8 milliseconds, depending on the level. 
+The ball and game tiles are rendered to the Canvas every 4 or 8 milliseconds, depending on the level: 
 
 ```javascript
 drawBall(pos, color, radius) {
@@ -86,7 +86,7 @@ drawTile(tile, color, letter) {
 }
 ```
 
-The data for each game level—including the level title, level speed, time limit (if any) and tile positions—are stored as key-value pairs and used by the rendering logic to draw each level's elements.
+The data for each game level—including the level title, level speed, time limit (if any) and tile positions—are stored as key-value pairs (and used by the rendering logic to draw each level's elements):
 
 ```javascript
 3: {
