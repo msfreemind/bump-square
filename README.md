@@ -47,3 +47,76 @@ movePushBlock(block, actionType) {
   });
 }
 ```
+
+## Game Rendering
+
+The ball and game tiles are rendered to the Canvas every 4 or 8 milliseconds, depending on the level. 
+
+```javascript
+drawBall(pos, color, radius) {
+  this.ctx.beginPath();
+
+  this.ctx.arc(pos.i, pos.j, radius || View.MAN_RADIUS, 0, Math.PI * 2);
+  this.ctx.fillStyle = color;
+  this.ctx.fill();
+
+  this.ctx.closePath();
+}
+
+...
+
+// Draw controllable blocks
+this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, "crimson", "A"));
+this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, "dodgerblue", "S"));
+this.board.getDBlocks().forEach(dBlock => this.drawTile(dBlock.pos, "#FFAF00", "D"));
+    
+...
+
+drawTile(tile, color, letter) {
+  this.ctx.fillStyle = color; 
+  this.ctx.fillRect(40 * tile[0], 40 * tile[1], 40, 40);
+
+  if (letter) {
+    this.ctx.fillStyle = "white";
+    this.ctx.font = "bold 26px Roboto";
+    this.ctx.textAlign = "center";
+    this.ctx.textBaseline = "middle";
+    this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
+  }
+}
+```
+
+The data for each game level—including the level title, level speed, time limit (if any) and tile positions—are stored as key-value pairs and used by the rendering logic to draw each level's elements.
+
+```javascript
+3: {
+  title: "Stage 4",
+  subtitle: "Putting It All Together",
+  menQuota: 1,
+  timeLimit: 0,
+  timerPos: [0, 0],
+  tickRate: 8,
+  start: [0, 10],
+  floor: [[1, 10], [2, 10], [3, 10], [4, 10], [4, 12], [4, 13], [9, 14], [10, 14], [11, 14], [12, 14]],
+  end: [13, 14],
+  aBlocks: { 
+    0: {
+      pos: [11, 14],
+      movement: [0, 1]
+    }
+  },
+  dBlocks: { 
+    0: {
+      pos: [4, 9],
+      movement: [0, 1]
+    }
+  },
+  shuttles: { 
+    0: {
+      pos: [4, 14],
+      movement: [4, 0]
+    }
+  },
+  deathSquares: {} 
+}
+```
