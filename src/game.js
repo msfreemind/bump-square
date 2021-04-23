@@ -23,7 +23,12 @@ class Game {
     this.levelStarted = false;
 
     this.goalSound = new Audio("./audio/goal.wav");
+    this.deadSound = new Audio("./audio/dead.wav");
+    this.music = new Audio("./audio/music.wav");
     this.goalSound.volume = 0.5;
+    this.deadSound.volume = 0.65;
+    this.music.volume = 0.25;
+    this.music.loop = true;
 
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
@@ -121,6 +126,7 @@ class Game {
 
   startLevel() {
     if (!this.levelStarted) {
+      if (this.mapIndex === 0) this.music.play();
       this.levelStarted = true;
       this.stageIntervalId = window.setInterval(
         this.step.bind(this),
@@ -144,6 +150,7 @@ class Game {
         this.view.renderGoalFlash();
       } else if (man.dead) {
         window.clearInterval(this.playerIntervalId);
+        this.deadSound.cloneNode().play();
 
         this.deadMen.push(man);
 

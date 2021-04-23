@@ -7,6 +7,10 @@ class Board {
     this.map = JSON.parse(JSON.stringify(map)); // Make a deep copy of map object
     this.startPos = new Coord((map.start[0] * 40) + 20, (map.start[1] * 40) + 20);
 
+    this.bumpSound = new Audio("./audio/bump.wav");
+    this.swipeSound = new Audio("./audio/swipe.wav");
+    this.swipeSound.volume = 0.75;
+
     this.aBlocksMoved = false;
     this.dBlocksMoved = false;
     this.shuttlesMoved = false;    
@@ -133,7 +137,7 @@ class Board {
     this.men.filter(man => tilesMatch(man.tilePos, block.pos)).forEach(bumpedMan => {
       if (!this.pushBlockCollision([bumpedMan.tilePos[0] + (block.movement[0] * actionType), bumpedMan.tilePos[1] + (block.movement[1] * actionType)])) {      
         if (!playedSound) {
-          // this.jumpSound.cloneNode().play();
+          this.bumpSound.cloneNode().play();
           playedSound = true;
         }        
 
@@ -189,13 +193,13 @@ class Board {
             shuttledMan.updatePos(
               shuttledMan.pos.plus(new Coord(-40 * shuttle.movement[0], -40 * shuttle.movement[1]))
             );
-          }          
-        });
 
-        if (!playedSound) {
-          // this.shuttleSound.cloneNode().play();
-          playedSound = true;
-        }        
+            if (!playedSound) {
+              this.swipeSound.cloneNode().play();
+              playedSound = true;
+            }
+          }          
+        });        
 
         shuttle.pos[0] -= shuttle.movement[0];
         shuttle.pos[1] -= shuttle.movement[1];
@@ -230,13 +234,13 @@ class Board {
             shuttledMan.updatePos(
               shuttledMan.pos.plus(new Coord(40 * shuttle.movement[0], 40 * shuttle.movement[1]))
             );
+
+            if (!playedSound) {
+              this.swipeSound.cloneNode().play();
+              playedSound = true;
+            }
           }
         });        
-
-        if (!playedSound) {
-          // this.shuttleSound.cloneNode().play();
-          playedSound = true;
-        } 
 
         shuttle.pos[0] += shuttle.movement[0];
         shuttle.pos[1] += shuttle.movement[1];
