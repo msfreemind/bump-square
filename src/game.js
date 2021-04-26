@@ -24,11 +24,14 @@ class Game {
 
     this.goalSound = new Audio("./audio/goal.wav");
     this.deadSound = new Audio("./audio/dead.wav");
-    this.music = new Audio("./audio/music.wav");
     this.goalSound.volume = 0.5;
     this.deadSound.volume = 0.65;
-    this.music.volume = 0.25;
-    this.music.loop = true;
+
+    this.music = new Howl({
+      src: ['./audio/music.wav'],
+      loop: true,
+      volume: 0.25
+    });
 
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
