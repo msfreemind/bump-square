@@ -96,7 +96,6 @@ class Game {
         break;
 
       case "KeyM":
-        console.log(this.music.volume());
         if (this.music.volume() > 0) this.music.volume(0);       
         else this.music.volume(0.25);       
         break;
