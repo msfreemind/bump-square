@@ -91,6 +91,11 @@ class Game {
         }        
         break;
 
+      case "KeyM":
+        if (this.music.volume === 0.25) this.music.volume = 0;       
+        else this.music.volume = 0.25;       
+        break;
+
       default:
         break;
     }
