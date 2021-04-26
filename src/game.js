@@ -32,6 +32,7 @@ class Game {
       loop: true,
       volume: 0.25
     });
+    this.musicStarted = false;
 
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
@@ -95,7 +96,7 @@ class Game {
         break;
 
       case "KeyM":
-        if (this.music.volume === 0.25) this.music.volume = 0;       
+        if (this.music.volume > 0) this.music.volume = 0;       
         else this.music.volume = 0.25;       
         break;
 
@@ -134,7 +135,11 @@ class Game {
 
   startLevel() {
     if (!this.levelStarted) {
-      if (this.mapIndex === 0) this.music.play();
+      if (!this.musicStarted) {
+        this.music.play();
+        this.musicStarted = true;
+      } 
+
       this.levelStarted = true;
       this.stageIntervalId = window.setInterval(
         this.step.bind(this),
