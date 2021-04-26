@@ -28,7 +28,7 @@ class Game {
     this.deadSound.volume = 0.65;
 
     this.music = new Howl({
-      src: ['./audio/music.wav'],
+      src: ['./audio/music.mp3'],
       loop: true,
       volume: 0.25
     });
