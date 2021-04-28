@@ -134,7 +134,9 @@ canvas {
   canvas {
     margin-top: 20px;
   }
+}
 
+@media all and (min-width: 1475px) {
   .controls {
     display: flex;
     flex-direction: column;
