@@ -1,3 +1,5 @@
+import { RAIN, SQUIGGLE, RATCHET, STARS, SIDEWAYS, FADE, SQUARE_COLOR } from './background';
+
 export const MAPS = {
   0: { 
     title: "Stage 1",
@@ -17,7 +19,8 @@ export const MAPS = {
     },
     dBlocks: {},
     shuttles: {},
-    deathSquares: {}    
+    deathSquares: {},
+    bgType: RATCHET  
   },
   1: {
     title: "Stage 2",
@@ -37,7 +40,8 @@ export const MAPS = {
       }
     },
     shuttles: {},
-    deathSquares: {} 
+    deathSquares: {},
+    bgType: SQUIGGLE   
   },
   2: {
     title: "Stage 3",
@@ -57,7 +61,8 @@ export const MAPS = {
         movement: [4, 0]
       }
     },
-    deathSquares: {} 
+    deathSquares: {},
+    bgType: FADE   
   },  
   3: {
     title: "Stage 4",
@@ -87,7 +92,8 @@ export const MAPS = {
         movement: [4, 0]
       }
     },
-    deathSquares: {} 
+    deathSquares: {},
+    bgType: SQUARE_COLOR   
   },
   4: {
     title: "Stage 5",
@@ -154,7 +160,8 @@ export const MAPS = {
       3: [6, 6],
       4: [13, 2],
       5: [20, 6]
-    }
+    },
+    bgType: SIDEWAYS
   },
   5: {
     title: "Stage 6",
@@ -220,7 +227,8 @@ export const MAPS = {
         movement: [3, 0]
       }
     },
-    deathSquares: {}
+    deathSquares: {},
+    bgType: STARS  
   },
   6: {
     title: "Stage 7",
@@ -286,7 +294,8 @@ export const MAPS = {
         movement: [-2, 0]
       }
     },
-    deathSquares: {}
+    deathSquares: {},
+    bgType: RAIN  
   },
   7: {
     title: "Stage 8",
@@ -340,7 +349,8 @@ export const MAPS = {
         movement: [3, 0]
       },
     },
-    deathSquares: {}
+    deathSquares: {},
+    bgType: RAIN  
   },
   8: {
     title: "Stage 9",
@@ -427,7 +437,8 @@ export const MAPS = {
         movement: [0, 5]
       }
     },
-    deathSquares: {}
+    deathSquares: {},
+    bgType: RAIN  
   },
   9: {
     title: "Stage 10",
@@ -498,7 +509,8 @@ export const MAPS = {
         movement: [2, 0]
       }
     },
-    deathSquares: {}
+    deathSquares: {},
+    bgType: RAIN  
   },
   10: {
     title: "Stage 11",
@@ -552,6 +564,7 @@ export const MAPS = {
       },
     },
     shuttles: {},
-    deathSquares: {}
+    deathSquares: {},
+    bgType: RAIN  
   }
-}
+};

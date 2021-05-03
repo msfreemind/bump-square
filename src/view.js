@@ -1,8 +1,12 @@
+import Background from './background';
+
 class View {
   constructor(ctx, board) {
+    this.canvas = document.getElementById("myCanvas");
     this.ctx = ctx;
     this.board = board;
     this.origMap = JSON.parse(JSON.stringify(this.board.map)); // Make a deep copy of map object
+    this.background = new Background(this);
     
     this.deathSquareImg = new Image();
     this.deathSquareImg.src = "./death-square.svg";
@@ -25,21 +29,24 @@ class View {
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "alphabetic";
     this.ctx.fillStyle = "black";
-    this.ctx.fillText(this.board.map.title, 500, 300);
+    if (this.canvas.width > 1000) this.ctx.fillText(this.board.map.title, 960, 300);
+    else this.ctx.fillText(this.board.map.title, 500, 300);
 
     this.ctx.beginPath();
-    this.ctx.moveTo(275, 320);
-    this.ctx.lineTo(725, 320);
+    this.ctx.moveTo((this.canvas.width / 2) - 225, 320);
+    this.ctx.lineTo((this.canvas.width / 2) + 225, 320);
     this.ctx.lineWidth = 2;
     this.ctx.strokeStyle = "black";
     this.ctx.stroke();
 
     this.ctx.font = '400 26px Roboto';
-    this.ctx.fillText(this.board.map.subtitle, 500, 355);
+    if (this.canvas.width > 1000) this.ctx.fillText(this.board.map.subtitle, 960, 355);
+    else this.ctx.fillText(this.board.map.subtitle, 500, 355);
 
     this.ctx.font = '700 30px Roboto';
     this.ctx.fillStyle = "crimson";
-    this.ctx.fillText("Touch or Hit Enter", 500, 665);
+    if (this.canvas.width > 1000) this.ctx.fillText("Touch or Hit Enter", 960, 665);
+    else this.ctx.fillText("Touch or Hit Enter", 500, 665);
   }
 
   renderNextState() {
@@ -47,10 +54,11 @@ class View {
     this.board.men.forEach(man => this.drawBall(man.pos, man.color));
   }
 
-  drawBall(pos, color, radius) {
+  drawBall(pos, color, radius, skipAdjustment) {
     this.ctx.beginPath();
 
-    this.ctx.arc(pos.i, pos.j, radius || View.MAN_RADIUS, 0, Math.PI * 2);
+    if (this.canvas.width > 1000 && !skipAdjustment) this.ctx.arc(pos.i + 440, pos.j, radius || View.MAN_RADIUS, 0, Math.PI * 2);
+    else this.ctx.arc(pos.i, pos.j, radius || View.MAN_RADIUS, 0, Math.PI * 2);
     this.ctx.fillStyle = color;
     this.ctx.fill();
 
@@ -60,8 +68,10 @@ class View {
   renderMap(drawGameArea) {
     // Draw game area
     if (drawGameArea) {
-      this.drawGameArea();
-    }    
+      this.drawGameArea(); 
+    }
+
+    this.background.draw();
 
     // Draw floor tiles
     this.drawTile(this.board.map.start, "gainsboro");
@@ -76,14 +86,14 @@ class View {
     this.board.getDeathSquares().forEach(deathSquare => this.drawDeathSquare(deathSquare, "black"));
 
     // Draw controllable blocks
-    this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, "crimson", "A")); //orchid also works
-    this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, "dodgerblue", "S"));
-    this.board.getDBlocks().forEach(dBlock => this.drawTile(dBlock.pos, "#FFAF00", "D")); // FFC700 also works
+    this.board.getABlocks().forEach(aBlock => this.drawTile(aBlock.pos, this.background.aColor || "crimson", "A")); //orchid also works
+    this.board.getShuttles().forEach(shuttle => this.drawTile(shuttle.pos, this.background.sColor || "dodgerblue", "S"));
+    this.board.getDBlocks().forEach(dBlock => this.drawTile(dBlock.pos, this.background.dColor || "#FFAF00", "D")); // FFC700 also works
   }
 
   drawGameArea() {
-    this.ctx.fillStyle = "white";
-    this.ctx.fillRect(0, 0, 1000, 800);
+    this.ctx.fillStyle = this.background.bgColor || "white";
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
   }
 
   printTime(time) {
@@ -91,33 +101,47 @@ class View {
 
     this.ctx.font = '700 26px Roboto';
     this.ctx.fillStyle = "red";
-    this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0], timerPos[1]);
+    if (this.canvas.width > 1000) this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0] + 440, timerPos[1]);
+    else this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0], timerPos[1]);
   }
 
   drawTile(tile, color, letter) {
-    this.ctx.fillStyle = color; 
-    this.ctx.fillRect(40 * tile[0], 40 * tile[1], 40, 40);
+    this.ctx.fillStyle = color;
+    
+    if (this.canvas.width > 1000) this.ctx.fillRect(40 * (tile[0] + 11), 40 * tile[1], 40, 40);
+    else this.ctx.fillRect(40 * tile[0], 40 * tile[1], 40, 40);
 
     if (letter) {
       this.ctx.fillStyle = "white";
       this.ctx.font = "bold 26px Roboto";
       this.ctx.textAlign = "center";
       this.ctx.textBaseline = "middle";
-      this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
+      if (this.canvas.width > 1000) this.ctx.fillText(letter, (40 * (tile[0] + 11)) + 20, (40 * tile[1]) + 22);
+      else this.ctx.fillText(letter, (40 * tile[0]) + 20, (40 * tile[1]) + 22);
     }
   }
 
   drawBlockSlots() {
     Object.values(this.origMap.aBlocks).forEach(aBlock => {
-      this.ctx.fillStyle = "crimson"; 
-      this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * aBlock.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * (aBlock.pos[0] + aBlock.movement[0])) + 17, (40 * (aBlock.pos[1] + aBlock.movement[1])) + 17, 6, 6);
+      this.ctx.fillStyle = "crimson";
+      if (this.canvas.width > 1000) {
+        this.ctx.fillRect((40 * (aBlock.pos[0] + 11)) + 17, (40 * aBlock.pos[1]) + 17, 6, 6);
+        this.ctx.fillRect((40 * (aBlock.pos[0] + aBlock.movement[0] + 11)) + 17, (40 * (aBlock.pos[1] + aBlock.movement[1])) + 17, 6, 6);
+      } else {
+        this.ctx.fillRect((40 * aBlock.pos[0]) + 17, (40 * aBlock.pos[1]) + 17, 6, 6);
+        this.ctx.fillRect((40 * (aBlock.pos[0] + aBlock.movement[0])) + 17, (40 * (aBlock.pos[1] + aBlock.movement[1])) + 17, 6, 6);
+      }    
     });
 
     Object.values(this.origMap.dBlocks).forEach(dBlock => {
-      this.ctx.fillStyle = "#FFAF00"; 
-      this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * dBlock.pos[1]) + 17, 6, 6);
-      this.ctx.fillRect((40 * (dBlock.pos[0] + dBlock.movement[0])) + 17, (40 * (dBlock.pos[1] + dBlock.movement[1])) + 17, 6, 6);
+      this.ctx.fillStyle = "#FFAF00";
+      if (this.canvas.width > 1000) {
+        this.ctx.fillRect((40 *  (dBlock.pos[0] + 11)) + 17, (40 * dBlock.pos[1]) + 17, 6, 6);
+        this.ctx.fillRect((40 * (dBlock.pos[0] + dBlock.movement[0] + 11)) + 17, (40 * (dBlock.pos[1] + dBlock.movement[1])) + 17, 6, 6);
+      } else {
+        this.ctx.fillRect((40 * dBlock.pos[0]) + 17, (40 * dBlock.pos[1]) + 17, 6, 6);
+        this.ctx.fillRect((40 * (dBlock.pos[0] + dBlock.movement[0])) + 17, (40 * (dBlock.pos[1] + dBlock.movement[1])) + 17, 6, 6);
+      }  
     });
   }
 
@@ -146,7 +170,8 @@ class View {
   }
 
   drawDeathSquare(deathSquare) {
-    this.ctx.drawImage(this.deathSquareImg, 40 * deathSquare[0], 40 * deathSquare[1], 40, 40);
+    if (this.canvas.width > 1000) this.ctx.drawImage(this.deathSquareImg, 40 * (deathSquare[0] + 11), 40 * deathSquare[1], 40, 40);
+    else this.ctx.drawImage(this.deathSquareImg, 40 * deathSquare[0], 40 * deathSquare[1], 40, 40);
   }
 
   async renderGoalFlash() {
@@ -166,10 +191,10 @@ class View {
 
       for (let i = 0; i < 3; i++) {
         this.ctx.fillStyle = "magenta"; 
-        this.ctx.fillRect(0, 0, 1000, 800);
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         await new Promise(r => setTimeout(r, 48));
         this.ctx.fillStyle = "black"; 
-        this.ctx.fillRect(0, 0, 1000, 800);
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
         await new Promise(r => setTimeout(r, 48));
       }
 
@@ -235,8 +260,8 @@ class View {
       if (alpha < 0) alpha = 0;
 
       this.ctx.fillStyle = "black"; 
-      this.ctx.fillRect(0, 0, 1000, 800);
-      this.printText(150, "white", 500, 400);
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+      this.printText(150, "white", this.canvas.width / 2, this.canvas.height / 2);
 
       this.ctx.globalAlpha = alpha;
       this.drawWinText();
@@ -244,8 +269,6 @@ class View {
     }, 90);
   }
 }
-
-
 
 View.MAN_RADIUS = 5;
 

@@ -130,12 +130,6 @@ canvas {
   }
 }
 
-@media all and (min-width: 1025px) {
-  canvas {
-    margin-top: 20px;
-  }
-}
-
 @media all and (min-width: 1475px) {
   .controls {
     display: flex;

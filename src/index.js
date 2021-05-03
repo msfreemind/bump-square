@@ -26,6 +26,14 @@ $( async function () {
   if (detectMobile()) {
     $('.softkey-container-1').css("display", "flex");
     $('.softkey-container-2').css("display", "flex");
+    canvas.width = 1000;
+    canvas.height = 800;
+  } else if (window.innerWidth > 1915) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight > 800 ? window.innerHeight : 800;
+  } else {
+    canvas.width = 1000;
+    canvas.height = 800;
   }
 
   const userAgent = navigator.userAgent.toLowerCase();

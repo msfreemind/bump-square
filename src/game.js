@@ -136,11 +136,12 @@ class Game {
   startLevel() {
     if (!this.levelStarted) {
       if (!this.musicStarted) {
-        this.music.play();
+        // this.music.play();
         this.musicStarted = true;
       } 
 
       this.levelStarted = true;
+
       this.stageIntervalId = window.setInterval(
         this.step.bind(this),
         this.tickRate
@@ -149,6 +150,8 @@ class Game {
         this.board.loadPlayer.bind(this.board),
         5000
       );
+      
+      this.view.background.start();
     }
   }
 
@@ -182,6 +185,7 @@ class Game {
     if ((this.board.men.length === 0 || (this.timeRemaining === 0 && MAPS[this.mapIndex].timeLimit > 0)) && this.deadMen.length === 0) {
       window.clearInterval(this.playerIntervalId);
       window.clearInterval(this.stageIntervalId);
+      this.view.background.stop();
 
       if (this.board.goalCount === this.board.menQuota) {            
         await new Promise(r => setTimeout(r, 450));
