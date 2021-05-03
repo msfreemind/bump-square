@@ -6,14 +6,17 @@ class Background {
 
     this.tickRate = this.view.origMap.tickRate;
     this.bgType = this.view.origMap.bgType;
+    this.multicolor = this.view.origMap.multicolor;
+    this.numBalls = this.view.origMap.numBalls;
+    this.startTime = null;
 
     this.beatCount = 0;
     this.colorCount = 0;
 
     this.bgIntervalId = null;
 
-    this.colors = ["crimson", "orange", "blue", "lime", "cyan", "orchid"];
-    this.ballColor = "lime";
+    this.colors = ["crimson", "orange", "yellow", "lime", "cyan", "orchid"];
+    this.ballColor = this.view.origMap.startColor;
 
     this.bgColorValue = 0;
     this.bgColor = null;
@@ -27,9 +30,9 @@ class Background {
 
     this.BG_FNCS = {
       0: { draw: this.drawRain, stateChange: this.loadRainDrops, stateFreq: 2 },
-      1: { draw: this.drawSquiggly, stateChange: this.loadSquiggly, stateFreq: 4 },
-      2: { draw: this.drawRatchet, stateChange: this.loadSidewaysBalls, stateFreq: 4 },
-      3: { draw: this.drawStars, stateChange: this.loadSidewaysBalls, stateFreq: 4 },
+      1: { draw: this.drawSquiggly, stateChange: this.loadSquiggly, stateFreq: 2 },
+      2: { draw: this.drawRatchet, stateChange: this.loadSidewaysBalls, stateFreq: 2 },
+      3: { draw: this.drawStars, stateChange: this.loadSidewaysBalls, stateFreq: 2 },
       4: { draw: this.drawSideToSide, stateChange: this.loadSidewaysBalls, stateFreq: 2 },
       5: { draw: this.drawBackgroundFade, stateChange: () => {}, stateFreq: 0 },
       6: { draw: this.drawBlockColorSwap, stateChange: () => {}, stateFreq: 0 }
@@ -37,10 +40,7 @@ class Background {
   }
 
   start() {
-    this.bgIntervalId = window.setInterval(
-      this.stateChange.bind(this),
-      323
-    );
+    window.requestAnimationFrame(this.stateChange.bind(this));
   }
   
   stop() {
@@ -51,18 +51,28 @@ class Background {
     this.BG_FNCS[this.bgType].draw.call(this);
   }
 
-  stateChange() {
-    // this.ballColor = this.colors[this.colorCount];
+  stateChange(timestamp) {
+    if (!this.startTime) this.startTime = timestamp;
 
-    const bgFnc = this.BG_FNCS[this.bgType];
+    if (timestamp - this.startTime >= 150.02125) {
+      this.startTime = timestamp;
 
-    if ((this.beatCount % bgFnc.stateFreq) === 0 || this.beatCount === 0) bgFnc.stateChange.call(this);
+      const bgFnc = this.BG_FNCS[this.bgType];
 
-    if (this.beatCount >= 7) this.beatCount = 0;
-    else this.beatCount++;
+      if (this.beatCount % 2 === 0 && this.multicolor) {
+        this.ballColor = this.colors[this.colorCount];
 
-    if (this.colorCount >= 5) this.colorCount = 0;
-    else this.colorCount++;
+        if (this.colorCount >= 5) this.colorCount = 0;
+        else this.colorCount++;
+      }
+
+      if ((this.beatCount % bgFnc.stateFreq) === 0 || this.beatCount === 0) bgFnc.stateChange.call(this);
+
+      if (this.beatCount >= 15) this.beatCount = 0;
+      else this.beatCount++;
+    }    
+
+    window.requestAnimationFrame(this.stateChange.bind(this));
   }
 
   loadRainDrops() {
@@ -92,16 +102,17 @@ class Background {
   }
 
   loadSquiggly() {
-    if (this.rainDrops.length >= 5) this.rainDrops.shift();
+    if (this.rainDrops.length >= this.numBalls) this.rainDrops.shift();
 
-    while (this.rainDrops.length < 5) {
+    while (this.rainDrops.length < this.numBalls) {
       let ball = { j: this.getRandomIntInclusive(this.canvas.height * 0.3, this.canvas.height * 0.7) };
 
-      if (this.coinTossSign() > 0) ball.i = this.getRandomIntInclusive(this.canvas.width * 0.2, this.canvas.width * 0.35);
-      else ball.i = this.getRandomIntInclusive(this.canvas.width * 0.65, this.canvas.width * 0.8);
+      if (this.coinTossSign() > 0) ball.i = this.getRandomIntInclusive(this.canvas.width * 0.25, this.canvas.width * 0.35);
+      else ball.i = this.getRandomIntInclusive(this.canvas.width * 0.65, this.canvas.width * 0.75);
       
-      ball.beat = this.getRandomIntInclusive(4, 7);
-      ball.vector = [0.44, 0.44 / (Math.random() + 0.5) ];
+      ball.beat = this.getRandomIntInclusive(0, 1);
+      ball.swapped = false;
+      ball.vector = [0.5, this.getRandomIntInclusive(2, 4)];
 
       if (ball.i > (this.canvas.width / 2)) ball.vector[0] *= -1;
       if (ball.j > (this.canvas.height / 2)) ball.vector[1] *= -1;
@@ -112,16 +123,19 @@ class Background {
 
   drawSquiggly() {
     this.rainDrops.forEach(drop => {
-      this.view.drawBall(drop, this.ballColor, 5, true);
+      this.view.drawBall(drop, this.ballColor, 20, true);
       
-      drop.i += drop.vector[0];
-      drop.j += drop.vector[1];
+      drop.i += drop.vector[0] + (1.25 * Math.random() * this.coinTossSign());
+      drop.j += drop.vector[1] + (1.25 * Math.random() * this.coinTossSign());
       
-      if (this.beatCount === drop.beat || this.beatCount == (drop.beat - 4)) {
-        drop.vector[1] = 1 * Math.random() * this.coinTossSign();
+      if (this.beatCount % 2 === drop.beat) {
+        if (!drop.swapped) {
+          drop.swapped = true;
+          if (drop.vector[1] <= 0) drop.vector[1] = this.getRandomIntInclusive(2, 4);
+          else drop.vector[1] = -1 * this.getRandomIntInclusive(2, 4);
+        }        
       } else {
-        drop.i += drop.vector[0] * 0.75 * this.coinTossSign();
-        drop.j += drop.vector[1] * 1 * this.coinTossSign();
+        drop.swapped = false;
       }
 
       drop.i = drop.i > 0 && drop.i < this.canvas.width ? drop.i : drop.i < 0 ? drop.i += this.canvas.width : drop.i -= this.canvas.width;
@@ -135,30 +149,28 @@ class Background {
   }
 
   loadSidewaysBalls() {
-    if (this.rainDrops.length >= 8) this.rainDrops.shift();
+    if (this.rainDrops.length >= this.numBalls) this.rainDrops.shift();
 
-    while (this.rainDrops.length < 8) {
+    while (this.rainDrops.length < this.numBalls) {
       let ball = { 
         iStart: this.getRandomIntInclusive(this.canvas.width * 0.2, this.canvas.width * 0.8), 
         jStart: this.getRandomIntInclusive(this.canvas.height * 0.2, this.canvas.height * 0.8),
         ratchetCount: 0,
-        size: 5
+        size: 20
       };
+
       ball.i = ball.iStart;
       ball.j = ball.jStart;
+
       this.rainDrops.push(ball);
     }    
   }
 
   drawRatchet() {
     this.rainDrops.forEach(drop => {
-      this.view.drawBall(drop, this.ballColor, 5, true);
-
-      console.log([drop.i, drop.j]);
-      console.log([drop.iStart, drop.jStart]);
-      console.log(drop.ratchetCount);
+      this.view.drawBall(drop, this.ballColor, 20, true);
       
-      if (this.beatCount % 2 === 0) {
+      if (this.beatCount % 4 === 0) {
         if (drop.i === drop.iStart) {
           drop.ratchetCount++;
 
@@ -178,10 +190,10 @@ class Background {
 
   drawSideToSide() {
     this.rainDrops.forEach(drop => {
-      this.view.drawBall(drop, this.ballColor, 5, true);
+      this.view.drawBall(drop, this.ballColor, 20, true);
       
-      if (this.beatCount % 2 === 0) drop.i = drop.iStart + 50;
-      else drop.i = drop.iStart - 50;
+      if (this.beatCount % 4 === 0) drop.i = drop.iStart + 50;
+      else if (this.beatCount % 4 === 2) drop.i = drop.iStart - 50;
     });
   }
 
@@ -199,8 +211,8 @@ class Background {
     this.rainDrops.forEach(drop => {
       this.view.drawBall(drop, this.ballColor, drop.size, true);
       
-      if (this.beatCount >= 4) drop.size += 0.025;
-      else drop.size -= 0.025;
+      if (this.beatCount >= 8) drop.size += 0.1;
+      else drop.size -= 0.1;
     });
   }
 

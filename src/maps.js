@@ -20,7 +20,10 @@ export const MAPS = {
     dBlocks: {},
     shuttles: {},
     deathSquares: {},
-    bgType: RATCHET  
+    bgType: SIDEWAYS,
+    startColor: "orchid",
+    multicolor: false,
+    numBalls: 3
   },
   1: {
     title: "Stage 2",
@@ -41,7 +44,10 @@ export const MAPS = {
     },
     shuttles: {},
     deathSquares: {},
-    bgType: SQUIGGLE   
+    bgType: SQUIGGLE,
+    startColor: "orange",
+    multicolor: false,
+    numBalls: 4  
   },
   2: {
     title: "Stage 3",
@@ -62,7 +68,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: FADE   
+    bgType: RATCHET,
+    startColor: "yellow",
+    multicolor: false,
+    numBalls: 5   
   },  
   3: {
     title: "Stage 4",
@@ -93,7 +102,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: SQUARE_COLOR   
+    bgType: STARS,
+    startColor: "cyan",
+    multicolor: false,
+    numBalls: 6  
   },
   4: {
     title: "Stage 5",
@@ -161,7 +173,10 @@ export const MAPS = {
       4: [13, 2],
       5: [20, 6]
     },
-    bgType: SIDEWAYS
+    bgType: SQUARE_COLOR,
+    startColor: "lime",
+    multicolor: false,
+    numBalls: 2
   },
   5: {
     title: "Stage 6",
@@ -228,7 +243,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: STARS  
+    bgType: RAIN,
+    startColor: "lime",
+    multicolor: true,
+    numBalls: 2  
   },
   6: {
     title: "Stage 7",
@@ -295,7 +313,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: RAIN  
+    bgType: FADE,
+    startColor: "lime",
+    multicolor: false,
+    numBalls: 2  
   },
   7: {
     title: "Stage 8",
@@ -350,7 +371,10 @@ export const MAPS = {
       },
     },
     deathSquares: {},
-    bgType: RAIN  
+    bgType: SIDEWAYS,
+    startColor: "lime",
+    multicolor: true,
+    numBalls: 8  
   },
   8: {
     title: "Stage 9",
@@ -438,7 +462,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: RAIN  
+    bgType: STARS,
+    startColor: "lime",
+    multicolor: true,
+    numBalls: 10  
   },
   9: {
     title: "Stage 10",
@@ -510,7 +537,10 @@ export const MAPS = {
       }
     },
     deathSquares: {},
-    bgType: RAIN  
+    bgType: FADE,
+    startColor: "lime",
+    multicolor: false,
+    numBalls: 2  
   },
   10: {
     title: "Stage 11",
@@ -565,6 +595,9 @@ export const MAPS = {
     },
     shuttles: {},
     deathSquares: {},
-    bgType: RAIN  
+    bgType: SQUARE_COLOR,
+    startColor: "lime",
+    multicolor: false,
+    numBalls: 2  
   }
 };

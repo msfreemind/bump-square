@@ -26,11 +26,16 @@ class Game {
     this.deadSound = new Audio("./audio/dead.wav");
     this.goalSound.volume = 0.5;
     this.deadSound.volume = 0.65;
-
-    this.music = new Howl({
-      src: ['./audio/music.mp3'],
+    
+    this.music2 = new Howl({
+      src: ['./audio/elev-music-2.mp3'],
       loop: true,
-      volume: 0.25
+      volume: 0.45
+    });
+    this.music1 = new Howl({
+      src: ['./audio/elev-music-1.mp3'],
+      onend: () => this.music2.play(),
+      volume: 0.45
     });
     this.musicStarted = false;
 
@@ -136,7 +141,7 @@ class Game {
   startLevel() {
     if (!this.levelStarted) {
       if (!this.musicStarted) {
-        // this.music.play();
+        this.music1.play();
         this.musicStarted = true;
       } 
 

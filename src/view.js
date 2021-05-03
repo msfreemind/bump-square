@@ -14,6 +14,11 @@ class View {
     this.loop = this.loop.bind(this);
   }
 
+  widthConvert(width) {
+    if (this.canvas.width > 1000) return width + 440;
+    else return width;
+  }
+
   async renderMapStartScreen() {
     this.drawGameArea();
 
@@ -29,8 +34,7 @@ class View {
     this.ctx.textAlign = "center";
     this.ctx.textBaseline = "alphabetic";
     this.ctx.fillStyle = "black";
-    if (this.canvas.width > 1000) this.ctx.fillText(this.board.map.title, 960, 300);
-    else this.ctx.fillText(this.board.map.title, 500, 300);
+    this.ctx.fillText(this.board.map.title, this.widthConvert(500), 300);
 
     this.ctx.beginPath();
     this.ctx.moveTo((this.canvas.width / 2) - 225, 320);
@@ -40,13 +44,11 @@ class View {
     this.ctx.stroke();
 
     this.ctx.font = '400 26px Roboto';
-    if (this.canvas.width > 1000) this.ctx.fillText(this.board.map.subtitle, 960, 355);
-    else this.ctx.fillText(this.board.map.subtitle, 500, 355);
+    this.ctx.fillText(this.board.map.subtitle, this.widthConvert(500), 355);
 
     this.ctx.font = '700 30px Roboto';
     this.ctx.fillStyle = "crimson";
-    if (this.canvas.width > 1000) this.ctx.fillText("Touch or Hit Enter", 960, 665);
-    else this.ctx.fillText("Touch or Hit Enter", 500, 665);
+    this.ctx.fillText("Touch or Hit Enter", this.widthConvert(500), 665);
   }
 
   renderNextState() {
@@ -101,8 +103,7 @@ class View {
 
     this.ctx.font = '700 26px Roboto';
     this.ctx.fillStyle = "red";
-    if (this.canvas.width > 1000) this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0] + 440, timerPos[1]);
-    else this.ctx.fillText("Timer: " + Math.floor(time/1000), timerPos[0], timerPos[1]);
+    this.ctx.fillText("Timer: " + Math.floor(time/1000), this.widthConvert(timerPos[0]), timerPos[1]);
   }
 
   drawTile(tile, color, letter) {
@@ -212,42 +213,46 @@ class View {
     this.ctx.fillText("You Win!!", x, y);
   }
 
-  drawWinText() {
-    this.printText(50, "magenta", 500, 265);
-    this.printText(50, "magenta", 685, 160);
-    this.printText(50, "magenta", 870, 55);
-    this.printText(50, "magenta", 315, 160);
-    this.printText(50, "magenta", 130, 55);
-    this.printText(50, "magenta", 870, 265);
-    this.printText(50, "magenta", 130, 265);
-    this.printText(50, "magenta", 500, 55);
+  textYConversion(yPos) {
+    return (this.canvas.height / 2) + yPos;
+  }
 
-    this.printText(50, "magenta", 500, 530);
-    this.printText(50, "magenta", 685, 635);
-    this.printText(50, "magenta", 870, 740);
-    this.printText(50, "magenta", 315, 635);
-    this.printText(50, "magenta", 130, 740);
-    this.printText(50, "magenta", 130, 530);
-    this.printText(50, "magenta", 870, 530);
-    this.printText(50, "magenta", 500, 740);
+  drawWinText() {
+    this.printText(50, "magenta", this.widthConvert(500), this.textYConversion(-135));
+    this.printText(50, "magenta", this.widthConvert(685), this.textYConversion(-240));
+    this.printText(50, "magenta", this.widthConvert(870), this.textYConversion(-345));
+    this.printText(50, "magenta", this.widthConvert(315), this.textYConversion(-240));
+    this.printText(50, "magenta", this.widthConvert(130), this.textYConversion(-345));
+    this.printText(50, "magenta", this.widthConvert(870), this.textYConversion(-135));
+    this.printText(50, "magenta", this.widthConvert(130), this.textYConversion(-135));
+    this.printText(50, "magenta", this.widthConvert(500), this.textYConversion(-345));
+
+    this.printText(50, "magenta", this.widthConvert(500), this.textYConversion(130));
+    this.printText(50, "magenta", this.widthConvert(685), this.textYConversion(235));
+    this.printText(50, "magenta", this.widthConvert(870), this.textYConversion(340));
+    this.printText(50, "magenta", this.widthConvert(315), this.textYConversion(235));
+    this.printText(50, "magenta", this.widthConvert(130), this.textYConversion(340));
+    this.printText(50, "magenta", this.widthConvert(130), this.textYConversion(130));
+    this.printText(50, "magenta", this.widthConvert(870), this.textYConversion(130));
+    this.printText(50, "magenta", this.widthConvert(500), this.textYConversion(340));
 
     this.ctx.globalAlpha = 1 - this.ctx.globalAlpha;
 
-    this.drawBall({ i: 685, j: 260  }, "lime", 8);
-    this.drawBall({ i: 315, j: 260  }, "lime", 8);
-    this.drawBall({ i: 870, j: 155  }, "lime", 8);
-    this.drawBall({ i: 500, j: 155  }, "lime", 8);
-    this.drawBall({ i: 135, j: 155  }, "lime", 8);
-    this.drawBall({ i: 315, j: 50  }, "lime", 8);
-    this.drawBall({ i: 685, j: 50  }, "lime", 8);
+    this.drawBall({ i: 685, j: this.textYConversion(-140) }, "lime", 8);
+    this.drawBall({ i: 315, j: this.textYConversion(-140) }, "lime", 8);
+    this.drawBall({ i: 870, j: this.textYConversion(-245) }, "lime", 8);
+    this.drawBall({ i: 500, j: this.textYConversion(-245) }, "lime", 8);
+    this.drawBall({ i: 135, j: this.textYConversion(-245) }, "lime", 8);
+    this.drawBall({ i: 315, j: this.textYConversion(-350) }, "lime", 8);
+    this.drawBall({ i: 685, j: this.textYConversion(-350) }, "lime", 8);
 
-    this.drawBall({ i: 685, j: 525  }, "lime", 8);
-    this.drawBall({ i: 315, j: 525  }, "lime", 8);
-    this.drawBall({ i: 870, j: 630  }, "lime", 8);
-    this.drawBall({ i: 500, j: 630  }, "lime", 8);
-    this.drawBall({ i: 135, j: 630  }, "lime", 8);
-    this.drawBall({ i: 315, j: 735  }, "lime", 8);
-    this.drawBall({ i: 685, j: 735  }, "lime", 8);
+    this.drawBall({ i: 685, j: this.textYConversion(125) }, "lime", 8);
+    this.drawBall({ i: 315, j: this.textYConversion(125) }, "lime", 8);
+    this.drawBall({ i: 870, j: this.textYConversion(230) }, "lime", 8);
+    this.drawBall({ i: 500, j: this.textYConversion(230) }, "lime", 8);
+    this.drawBall({ i: 135, j: this.textYConversion(230) }, "lime", 8);
+    this.drawBall({ i: 315, j: this.textYConversion(335) }, "lime", 8);
+    this.drawBall({ i: 685, j: this.textYConversion(335) }, "lime", 8);
   }
 
   loop() {
