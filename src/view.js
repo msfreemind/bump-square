@@ -185,22 +185,20 @@ class View {
   }
 
   async printWinScreen(goalSound) {
-    await new Promise(r => setTimeout(r, 100));
-
-    for (let i = 0; i < 3; i++) {     
-      goalSound.cloneNode().play();
-
-      for (let i = 0; i < 3; i++) {
-        this.ctx.fillStyle = "magenta"; 
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        await new Promise(r => setTimeout(r, 48));
-        this.ctx.fillStyle = "black"; 
-        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-        await new Promise(r => setTimeout(r, 48));
-      }
-
-      if (i < 2) await new Promise(r => setTimeout(r, 200));
-    }
+    await new Promise(r => setTimeout(r, 100));  
+      
+    goalSound.cloneNode().play();
+    this.ctx.fillStyle = "magenta"; 
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    await new Promise(r => setTimeout(r, 400));
+    goalSound.cloneNode().play();
+    this.ctx.fillStyle = "black"; 
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    await new Promise(r => setTimeout(r, 400));
+    goalSound.cloneNode().play();
+    this.ctx.fillStyle = "magenta"; 
+    this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    await new Promise(r => setTimeout(r, 400));
 
     this.loop();
   }
