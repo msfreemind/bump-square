@@ -13,8 +13,6 @@ class Background {
     this.beatCount = 0;
     this.colorCount = 0;
 
-    this.bgIntervalId = null;
-
     this.colors = ["crimson", "orange", "yellow", "lime", "cyan", "orchid"];
     this.ballColor = this.view.origMap.startColor;
 
@@ -44,7 +42,7 @@ class Background {
   }
   
   stop() {
-    window.clearInterval(this.bgIntervalId);
+    window.cancelAnimationFrame(this.stateChange.bind(this));
   }
 
   draw() {

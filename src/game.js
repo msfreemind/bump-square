@@ -42,7 +42,7 @@ class Game {
     this.timeRemaining = MAPS[0].timeLimit;
     this.tickRate = MAPS[0].tickRate;
 
-    this.view.renderMapStartScreen();
+    window.requestAnimationFrame(this.view.renderMapStartScreen.bind(this.view));
   }
 
   loadNextMap(restart) {
@@ -58,9 +58,9 @@ class Game {
       this.tickRate = MAPS[this.mapIndex].tickRate;
 
       if (restart) this.startLevel();
-      else this.view.renderMapStartScreen();
+      else window.requestAnimationFrame(this.view.renderMapStartScreen.bind(this.view));
     } else {
-      this.view.printWinScreen(this.goalSound);
+      window.requestAnimationFrame(() => this.view.printWinScreen(this.goalSound));
     }
   }
 
@@ -173,7 +173,7 @@ class Game {
         this.board.removeMan(idx);
         this.board.addGoal();
         this.goalSound.play();
-        this.view.renderGoalFlash();
+        window.requestAnimationFrame(this.view.renderGoalFlash.bind(this.view));
       } else if (man.dead) {
         window.clearInterval(this.playerIntervalId);
         this.deadSound.cloneNode().play();
@@ -205,12 +205,12 @@ class Game {
 
       this.loadNextMap();
     } else {
-      this.view.renderNextState();
-      this.deadMen.forEach(man => this.view.drawBall(man.pos, "red"));
+      window.requestAnimationFrame(this.view.renderNextState.bind(this.view));
+      this.deadMen.forEach(man => window.requestAnimationFrame(() => this.view.drawBall(man.pos, "red")));
 
       if (MAPS[this.mapIndex].timeLimit > 0) {
         this.timeRemaining -= this.tickRate;
-        this.view.printTime(this.timeRemaining);
+        window.requestAnimationFrame(() => this.view.printTime(this.timeRemaining));
       }
     }    
   }
